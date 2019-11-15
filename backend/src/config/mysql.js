@@ -19,4 +19,14 @@ function execSQLQuery(sqlQuery, res){
     });
 }
 
-module.exports = { connection, execSQLQuery };
+function execSQLQuery2(sqlQuery){
+    connection.query(sqlQuery, function(error, results, fields){
+        if (error) {
+            return console.log(error);
+        }
+        console.log('executou!');
+        // connection.end();
+    });
+}
+
+module.exports = { connection, execSQLQuery, execSQLQuery2 };
