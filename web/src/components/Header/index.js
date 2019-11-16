@@ -75,9 +75,6 @@ export default function Header() {
                             >
                                 <Dropdown.Item eventKey="1">Entrar</Dropdown.Item>
                                 <Dropdown.Item eventKey="2">Cadastrar Pet</Dropdown.Item>
-                                <Dropdown.Item eventKey="3">Something else here</Dropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item eventKey="4">Separated link</Dropdown.Item>
                             </DropdownButton>
                         </Nav>
                     </Navbar.Collapse>

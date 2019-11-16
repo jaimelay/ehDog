@@ -1,5 +1,5 @@
 const Values = require('./values');
-const { connection } = require('../config/mysql');
+const { connection } = require('../config/db');
 
 Values.insertCliente();
 Values.insertVet();

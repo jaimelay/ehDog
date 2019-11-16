@@ -1,5 +1,5 @@
 const Tables = require('./tables');
-const { connection } = require('../config/mysql');
+const { connection } = require('../config/db');
 
 Tables.createTableCliente();
 Tables.createTableAnimal();

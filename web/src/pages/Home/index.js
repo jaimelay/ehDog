@@ -7,6 +7,7 @@ import tosa from '../../assets/tosa.jpg';
 import banho from '../../assets/banho.jpg';
 import consultaMedica from '../../assets/consultaMedica.jpg';
 
+import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 const HomeContainer = styled.div`
@@ -31,6 +32,7 @@ const FeedContainer = styled.div`
 export default function Home() {
     return (
         <HomeContainer>
+            <Header />
             <FeedContainer>
                 <Card style={{ width: '18rem' }}>
                     <Card.Img variant="top" src={banho} />

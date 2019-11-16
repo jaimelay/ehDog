@@ -1,4 +1,4 @@
-const { execSQLQuery } = require('../config/mysql');
+const { execSQLQuery } = require('../config/db');
 
 module.exports = {
 

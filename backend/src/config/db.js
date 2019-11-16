@@ -7,6 +7,10 @@ const connection = mysql.createConnection({
     database : 'ehdog'
 });
 
+connection.connect(function(err) {
+    if (err) throw err;
+});
+
 function execSQLQuery(sqlQuery, res){
     connection.query(sqlQuery, function(error, results, fields){
         if (error) {
@@ -14,7 +18,6 @@ function execSQLQuery(sqlQuery, res){
         } else {
             res.json(results);
         }
-        connection.end();
         console.log('executou!');
     });
 }
@@ -25,7 +28,6 @@ function execSQLQuery2(sqlQuery){
             return console.log(error);
         }
         console.log('executou!');
-        // connection.end();
     });
 }
 
