@@ -20,6 +20,7 @@ const Tables = styled.div`
 export default function Admin() {
     const [products, setProducts] = useState([]);
     const [clients, setClients] = useState([]);
+    const [tosadores, setTosadores] = useState([]);
 
     useEffect(() => {
         async function loadProducts() {
@@ -37,12 +38,24 @@ export default function Admin() {
       loadClients();
     }, []);
 
+    useEffect(() => {
+      async function loadTosadores() {
+          const response = await api.get('/tosador');
+          setTosadores(response.data);
+      }
+      loadTosadores();
+    }, []);
+
     async function deleteProduct(cod_produto){
       await api.delete(`/produtos/${cod_produto}`);
     }
 
     async function deleteClient(CPFCliente){
       await api.delete(`/clientes/${CPFCliente}`);
+    }
+
+    async function deleteTosador(CPFTosador){
+      await api.delete(`/tosador/${CPFTosador}`);
     }
 
     return (
@@ -116,6 +129,47 @@ export default function Admin() {
                 </>
                 ) : (
                   <tr>                    
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+              ) }
+            </tbody>
+          </Table>
+          <h1>Listagem de Tosadores</h1>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>CPF</th>
+                <th>Nome</th>
+                <th>Endereço</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Salário</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              { tosadores.length > 0 ? (
+                <>
+                    { tosadores.map(tosador => (
+                      <tr key={tosador.CPF}>                    
+                        <td>{tosador.CPF}</td>
+                        <td>{tosador.nome_tosador}</td>
+                        <td>{tosador.end_tosador}</td>
+                        <td>{tosador.email_tosador}</td>
+                        <td>{tosador.tel_tosador}</td> 
+                        <td>{tosador.salario_tos}</td> 
+                        <td><Button variant="danger" onClick={() => deleteTosador(tosador.CPF)}>Deletar</Button></td>
+                      </tr>
+                    ))}
+                </>
+                ) : (
+                  <tr>                    
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
