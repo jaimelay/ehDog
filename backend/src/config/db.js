@@ -22,6 +22,16 @@ function execSQLQuery(sqlQuery, res){
     });
 }
 
+function execSQLQueryWhere(sqlQuery, params, res){
+    connection.query(sqlQuery, params, function(error, results, fields){
+        if (error) {
+            res.json(error);
+        } else {
+            res.send('Deletado com sucesso.');
+        }
+    });
+}
+
 function execSQLQuery2(sqlQuery){
     connection.query(sqlQuery, function(error, results, fields){
         if (error) {
@@ -31,4 +41,4 @@ function execSQLQuery2(sqlQuery){
     });
 }
 
-module.exports = { connection, execSQLQuery, execSQLQuery2 };
+module.exports = { connection, execSQLQuery, execSQLQueryWhere, execSQLQuery2 };

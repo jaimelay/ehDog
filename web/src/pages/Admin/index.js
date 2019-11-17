@@ -4,7 +4,7 @@ import api from '../../services/api';
 
 import HeaderAdmin from './HeaderAdmin';
 
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 
 const AdminContainer = styled.div`
@@ -37,6 +37,14 @@ export default function Admin() {
       loadClients();
     }, []);
 
+    async function deleteProduct(cod_produto){
+      await api.delete(`/produtos/${cod_produto}`);
+    }
+
+    async function deleteClient(CPFCliente){
+      await api.delete(`/clientes/${CPFCliente}`);
+    }
+
     return (
       <>
       <HeaderAdmin/>
@@ -51,6 +59,7 @@ export default function Admin() {
                 <th>Marca</th>
                 <th>Valor</th>
                 <th>Estoque</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -63,11 +72,13 @@ export default function Admin() {
                         <td>{product.marca}</td>
                         <td>R$ {product.valor_unitario}</td>
                         <td>{product.qtd_estoque}</td>
+                        <td><Button variant="danger" onClick={() => deleteProduct(product.cod_produto)}>Deletar</Button></td>
                       </tr>
                     ))}
                 </>
                 ) : (
                   <tr>                    
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -86,6 +97,7 @@ export default function Admin() {
                 <th>Endereço</th>
                 <th>Email</th>
                 <th>Telefone</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -98,11 +110,13 @@ export default function Admin() {
                         <td>{client.end_cliente}</td>
                         <td>{client.email_cliente}</td>
                         <td>{client.tel_cliente}</td> 
+                        <td><Button variant="danger" onClick={() => deleteClient(client.CPF)}>Deletar</Button></td>
                       </tr>
                     ))}
                 </>
                 ) : (
                   <tr>                    
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
