@@ -10,6 +10,7 @@ export default function Routes() {
         <>
             <Switch>
                 <Route exact path="/" component={Home} />
+                <Route path="/produtos" component={Produto} />
                 <Route 
                     path="/admin" 
                     render={({ match: { url } }) => (

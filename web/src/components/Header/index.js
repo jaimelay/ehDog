@@ -3,6 +3,9 @@ import React from 'react';
 import { Nav, Navbar, Dropdown, DropdownButton, Form, FormControl, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 
+import Login from '../Login';
+import SignUp from '../SignUp';
+
 import capa from '../../assets/capa.jpg';
 
 const HeaderContainer = styled.div`
@@ -61,21 +64,9 @@ export default function Header() {
                             <Nav.Link href="#features">Serviços</Nav.Link>
                             <Nav.Link href="#pricing">Produtos</Nav.Link>
                         </Nav>
-                        <Nav className="mr-auto">
-                            <Form inline>
-                                <FormControl type="text" placeholder="procurar..." className="mr-sm-2" />
-                                <Button variant="outline-light">Procurar</Button>
-                            </Form>
-                        </Nav>
                         <Nav className="text-primary">
-                            <DropdownButton
-                                alignRight
-                                title="Cliente"
-                                id="dropdown-menu-align-right"
-                            >
-                                <Dropdown.Item eventKey="1">Entrar</Dropdown.Item>
-                                <Dropdown.Item eventKey="2">Cadastrar Pet</Dropdown.Item>
-                            </DropdownButton>
+                            <Login />
+                            <SignUp />
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
