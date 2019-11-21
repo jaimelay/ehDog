@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Admin from './pages/Admin';
-import Produto from './pages/Produto';
+import Produto from './pages/Admin/Produto';
 
 export default function Routes() {
     return (
