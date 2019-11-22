@@ -7,6 +7,7 @@ const Tosador = require('./controllers/Tosador');
 const routes = express.Router();
 
 routes.get('/produtos', Produto.getAllProducts);
+routes.post('/produtos', Produto.insertProduct);
 routes.delete('/produtos/:codProduto', Produto.deleteProduct);
 
 routes.get('/clientes', Cliente.getAllClients);
