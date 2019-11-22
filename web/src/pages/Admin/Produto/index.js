@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
 
 import { Formik } from 'formik';
 import { Form, Container, Table, Button, Modal } from 'react-bootstrap';
@@ -34,12 +33,23 @@ const Buttons = styled.div`
     margin: 0 5px;
 `;
 
-export default function Produto({ history }) {
+export default function Produto() {
     const [products, setProducts] = useState([]);
     const [showModalDelete, setShowModalDelete] = useState(false);
+    const [showModalUpdate, setShowModalUpdate] = useState(false);
+    const [productID, setProductID] = useState({});
 
-    const handleCloseModalDelete = () => setShowModalDelete(false);
+    const handleCloseModalDelete = () => {
+        setShowModalDelete(false);
+        setProductID({});
+    }
     const handleShowModalDelete = () => setShowModalDelete(true);
+
+    const handleCloseModalUpdate = () => {
+        setShowModalUpdate(false);
+        setProductID({});
+    }
+    const handleShowModalUpdate = () => setShowModalUpdate(true);
 
     useEffect(() => {
         async function loadProducts() {
@@ -95,16 +105,8 @@ export default function Produto({ history }) {
                         }, 400);
                     }}
                 >
-                    {({
-                            handleSubmit,
-                            handleChange,
-                            handleBlur,
-                            values,
-                            touched,
-                            isValid,
-                            errors,
-                        }) => (
-                        <Form noValidate onSubmit={handleSubmit}>   
+                    {(formAdd) => (
+                        <Form noValidate onSubmit={formAdd.handleSubmit}>   
                             <Table striped bordered hover>
                                 <thead>
                                     <tr>
@@ -129,22 +131,139 @@ export default function Produto({ history }) {
                                                             <td>
                                                                 <ButtonContainer>
                                                                     <Buttons>
-                                                                        <Button variant="warning">Editar</Button>
-                                                                    </Buttons>
-                                                                    <Buttons>
-                                                                        <Button variant="danger" onClick={handleShowModalDelete}>Deletar</Button>
-                                                                        <Modal show={showModalDelete} onHide={handleCloseModalDelete} animation={false}>
+                                                                        <Button variant="warning" onClick={() => {setProductID(product); handleShowModalUpdate();}}>Editar</Button>
+                                                                        <Modal show={showModalUpdate} onHide={handleCloseModalUpdate} animation={true}>
                                                                             <Modal.Header closeButton>
-                                                                                <Modal.Title>Você quer mesmo fazer isso?</Modal.Title>
+                                                                                <Modal.Title>Altere com o que você deseja</Modal.Title>
                                                                             </Modal.Header>
                                                                             <Modal.Body>
-                                                                                {`Você deseja mesmo deletar o produto ( ${product.nome_produto} ) com o código ( ${product.cod_produto} ) ?`}
+                                                                            <Formik
+                                                                                initialValues={{ cod_produto: `${productID.cod_produto}`, nome_produto: `${productID.nome_produto}`, marca: `${productID.marca}`, valor_unitario: `${productID.valor_unitario}`, qtd_estoque: `${productID.qtd_estoque}` }}
+                                                                                validate={values => {
+                                                                                    let errors = {};
+
+                                                                                    if (!values.firstName) { errors.firstName = 'É necessário digitar seu nome.'; }
+
+                                                                                    if (!values.lastName) { errors.lastName = 'É necessário digitar seu sobrenome.'; }
+
+                                                                                    if (!values.email) {
+                                                                                        errors.email = 'É necessário digitar algum e-mail.';
+                                                                                    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+                                                                                        errors.email = 'Endereço de e-mail inválido.';
+                                                                                    }
+                        
+                                                                                    return errors;
+                                                                                }}
+                                                                                onSubmit={(values, { setErrors, setSubmitting }) => {
+                                                                                    setTimeout(() => {
+                                                                                        async function handleSubmit() {
+                                                                                        }
+                                                                                        handleSubmit();
+                                                                                    }, 400);
+                                                                                }}
+                                                                            >
+                                                                                {(formEdit) => (
+                                                                                    <Form noValidate onSubmit={formEdit.handleSubmit}>
+                                                                                        <Form.Group controlId="validationFormik01">
+                                                                                            <Form.Label>Código do Produto*</Form.Label>
+                                                                                            <Form.Control
+                                                                                                type="text"
+                                                                                                name="cod_produto"
+                                                                                                value={formEdit.values.cod_produto}
+                                                                                                onChange={formEdit.handleChange}
+                                                                                                isInvalid={!!formEdit.errors.cod_produto}
+                                                                                            />
+                                                                                            <Form.Control.Feedback type="invalid">
+                                                                                                {formEdit.errors.cod_produto}
+                                                                                            </Form.Control.Feedback>
+                                                                                        </Form.Group>
+
+                                                                                        <Form.Group controlId="validationFormik02">
+                                                                                            <Form.Label>Nome do Produto*</Form.Label>
+                                                                                            <Form.Control
+                                                                                                type="text"
+                                                                                                name="nome_produto"
+                                                                                                value={formEdit.values.nome_produto}
+                                                                                                onChange={formEdit.handleChange}
+                                                                                                isInvalid={!!formEdit.errors.nome_produto}
+                                                                                            />
+                                                                                            <Form.Control.Feedback type="invalid">
+                                                                                                {formEdit.errors.nome_produto}
+                                                                                            </Form.Control.Feedback>
+                                                                                        </Form.Group>
+                                                                                    
+
+                                                                                        <Form.Group controlId="validationFormik03">
+                                                                                            <Form.Label>Marca*</Form.Label>
+                                                                                            <Form.Control
+                                                                                                type="text"
+                                                                                                name="marca"
+                                                                                                value={formEdit.values.marca}
+                                                                                                onChange={formEdit.handleChange}
+                                                                                                isInvalid={!!formEdit.errors.marca}
+                                                                                            />
+                                                                                            <Form.Control.Feedback type="invalid">
+                                                                                                {formEdit.errors.marca}
+                                                                                            </Form.Control.Feedback>
+                                                                                        </Form.Group>
+
+                                                                                        <Form.Group controlId="validationFormik04">
+                                                                                            <Form.Label>Valor Unitário*</Form.Label>
+                                                                                            <Form.Control
+                                                                                                type="text"
+                                                                                                name="valor_unitario"
+                                                                                                value={formEdit.values.valor_unitario}
+                                                                                                onChange={formEdit.handleChange}
+                                                                                                isInvalid={!!formEdit.errors.valor_unitario}
+                                                                                            />
+                                                                                            <Form.Control.Feedback type="invalid">
+                                                                                                {formEdit.errors.valor_unitario}
+                                                                                            </Form.Control.Feedback>
+                                                                                        </Form.Group>
+
+                                                                                        <Form.Group controlId="validationFormik05">
+                                                                                            <Form.Label>Quantidade em Estoque*</Form.Label>
+                                                                                            <Form.Control
+                                                                                                type="text"
+                                                                                                name="qtd_estoque"
+                                                                                                value={formEdit.values.qtd_estoque}
+                                                                                                onChange={formEdit.handleChange}
+                                                                                                isInvalid={!!formEdit.errors.qtd_estoque}
+                                                                                            />
+                                                                                
+                                                                                            <Form.Control.Feedback type="invalid">
+                                                                                                {formEdit.errors.qtd_estoque}
+                                                                                            </Form.Control.Feedback>
+                                                                                        </Form.Group>
+                                                                                        <Button type="submit">Salvar</Button>
+                                                                                    </Form>
+                                                                                )}
+                                                                            </Formik>
                                                                             </Modal.Body>
                                                                             <Modal.Footer>
                                                                             <Button variant="secondary" onClick={handleCloseModalDelete}>
                                                                                 Cancelar
                                                                             </Button>
-                                                                            <Button variant="primary" onClick={() => {deleteProduct(product.cod_produto); handleCloseModalDelete();}}>
+                                                                            <Button variant="primary" onClick={() => {deleteProduct(productID.cod_produto); setProductID({}); console.log(productID); handleCloseModalDelete();}}>
+                                                                                Salvar
+                                                                            </Button>
+                                                                            </Modal.Footer>
+                                                                        </Modal>
+                                                                    </Buttons>
+                                                                    <Buttons>
+                                                                        <Button variant="danger" onClick={() => { setProductID(product); handleShowModalDelete(); }}>Deletar</Button>
+                                                                        <Modal show={showModalDelete} onHide={handleCloseModalDelete} animation={true}>
+                                                                            <Modal.Header closeButton>
+                                                                                <Modal.Title>Você quer mesmo fazer isso?</Modal.Title>
+                                                                            </Modal.Header>
+                                                                            <Modal.Body>
+                                                                                {`Você deseja mesmo deletar o produto ( ${productID.nome_produto} ) com código ( ${productID.cod_produto} ) ?`}
+                                                                            </Modal.Body>
+                                                                            <Modal.Footer>
+                                                                            <Button variant="secondary" onClick={handleCloseModalDelete}>
+                                                                                Cancelar
+                                                                            </Button>
+                                                                            <Button variant="primary" onClick={() => {deleteProduct(productID.cod_produto); setProductID({}); handleCloseModalDelete();}}>
                                                                                 Deletar
                                                                             </Button>
                                                                             </Modal.Footer>
@@ -172,9 +291,9 @@ export default function Produto({ history }) {
                                                         type="text"
                                                         name="cod_produto"
                                                         placeholder="Ex: 12345"
-                                                        value={values.cod_produto}
-                                                        onChange={handleChange}
-                                                        isInvalid={!!errors.cod_produto}
+                                                        value={formAdd.values.cod_produto}
+                                                        onChange={formAdd.handleChange}
+                                                        isInvalid={!!formAdd.errors.cod_produto}
                                                     />
                                                 </Form.Group>
                                             </td>
@@ -184,9 +303,9 @@ export default function Produto({ history }) {
                                                         type="text"
                                                         name="nome_produto"
                                                         placeholder="Digite o nome"
-                                                        value={values.nome_produto}
-                                                        onChange={handleChange}
-                                                        isInvalid={!!errors.nome_produto}
+                                                        value={formAdd.values.nome_produto}
+                                                        onChange={formAdd.handleChange}
+                                                        isInvalid={!!formAdd.errors.nome_produto}
                                                     />
                                                 </Form.Group>
                                             </td>
@@ -196,9 +315,9 @@ export default function Produto({ history }) {
                                                         type="text"
                                                         name="marca"
                                                         placeholder="Digite a marca"
-                                                        value={values.marca}
-                                                        onChange={handleChange}
-                                                        isInvalid={!!errors.marca}
+                                                        value={formAdd.values.marca}
+                                                        onChange={formAdd.handleChange}
+                                                        isInvalid={!!formAdd.errors.marca}
                                                     />
                                                 </Form.Group>
                                             </td>
@@ -208,9 +327,9 @@ export default function Produto({ history }) {
                                                         type="text"
                                                         name="valor_unitario"
                                                         placeholder="Ex: 10.00"
-                                                        value={values.valor_unitario}
-                                                        onChange={handleChange}
-                                                        isInvalid={!!errors.valor_unitario}
+                                                        value={formAdd.values.valor_unitario}
+                                                        onChange={formAdd.handleChange}
+                                                        isInvalid={!!formAdd.errors.valor_unitario}
                                                     />
                                                 </Form.Group>
                                             </td>
@@ -220,9 +339,9 @@ export default function Produto({ history }) {
                                                         type="text"
                                                         name="qtd_estoque"
                                                         placeholder="Ex: 5"
-                                                        value={values.qtd_estoque}
-                                                        onChange={handleChange}
-                                                        isInvalid={!!errors.qtd_estoque}
+                                                        value={formAdd.values.qtd_estoque}
+                                                        onChange={formAdd.handleChange}
+                                                        isInvalid={!!formAdd.errors.qtd_estoque}
                                                     />
                                                 </Form.Group>
                                             </td>

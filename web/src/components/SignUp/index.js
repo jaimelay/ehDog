@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { withRouter, Redirect } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+// import { withRouter, Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+// import { useDispatch } from 'react-redux';
 
 import { Formik, Field } from 'formik';
 import MaskedInput from "react-text-mask";
@@ -10,8 +11,8 @@ import "./styles.css";
 
 function SignUp(){
     const [show, setShow] = useState(false);
-    const [routeRedirect, setRouteRedirect] = useState(false);
-    const dispatch = useDispatch();
+    // const [routeRedirect, setRouteRedirect] = useState(false);
+    // const dispatch = useDispatch();
 
     const handleClose = () => setShow(false);
     
@@ -20,10 +21,10 @@ function SignUp(){
         setShow(true);
     }
 
-    const redirect = routeRedirect;
-    if(redirect){
-        return <Redirect to="/" />  
-    }
+    // const redirect = routeRedirect;
+    // if(redirect){
+    //     return <Redirect to="/" />  
+    // }
 
     const cpfNumberMask = [
         /[1-9]/,

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom'
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 
 import { Formik } from 'formik';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 function Login({ history }){
     const [show, setShow] = useState(false);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const handleClose = () => setShow(false);
     function handleShow(e){
