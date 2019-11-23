@@ -5,6 +5,11 @@ module.exports = {
         execSQLQuery('SELECT * FROM Produto', res);
     },
 
+    getProduct(req, res){
+        const { codProduto } = req.params;
+        execSQLQueryWhere(`SELECT * FROM Produto WHERE cod_produto = ?`, [codProduto], res);
+    },
+
     deleteProduct(req, res){
         const { codProduto } = req.params;
         execSQLQueryWhere('DELETE FROM Produto WHERE cod_produto = ?', [codProduto], res);

@@ -1,4 +1,4 @@
-const { execSQLQuery2 } = require('../config/db');
+const { execSQLQuery } = require('../config/db');
 
 module.exports = {
 	insertCliente() {
@@ -13,7 +13,7 @@ module.exports = {
 				'Rua Esquina 123',
 				'jaime@gmail.com',
 				123456789);`;
-		execSQLQuery2(valueCliente);
+		execSQLQuery(valueCliente);
     },
     
 	insertVet() {
@@ -35,7 +35,7 @@ module.exports = {
 			"123456780",
 			3500.00
 		);`;
-		execSQLQuery2(valueVet);
+		execSQLQuery(valueVet);
 	},
 
 	insertTosador() {
@@ -55,7 +55,7 @@ module.exports = {
 			123456798,
 			1200.00
 		);`;
-		execSQLQuery2(valueTosador); 
+		execSQLQuery(valueTosador); 
 	},
 
 	insertAnimal() {
@@ -76,7 +76,7 @@ module.exports = {
 			"Pequeno",
 			123456789
 		);`;
-		execSQLQuery2(valueAnimal);
+		execSQLQuery(valueAnimal);
 	},
 
 	insertProduto() {
@@ -94,7 +94,7 @@ module.exports = {
 			10.00,
 			5
 		);`;
-		execSQLQuery2(valueProduto);
+		execSQLQuery(valueProduto);
 	},
 
 	insertSolicita() {
@@ -106,7 +106,7 @@ module.exports = {
 			123456789,
 			20191115183000
 		);`;
-		execSQLQuery2(valueSolicita);
+		execSQLQuery(valueSolicita);
 	},
 
 	insertCompra() {
@@ -122,7 +122,7 @@ module.exports = {
 			12345,
 			123456789
 		);`;
-		execSQLQuery2(valueCompra);
+		execSQLQuery(valueCompra);
 	},
         
     insertServico(){
@@ -142,7 +142,7 @@ module.exports = {
             09876,
             12345678912
         );`;
-        execSQLQuery2(valueServico);
+        execSQLQuery(valueServico);
     },
     
     insertConsulta() {
@@ -160,6 +160,6 @@ module.exports = {
             12345,
             09876
         );`;
-        execSQLQuery2(valueConsulta);
+        execSQLQuery(valueConsulta);
     }
 }

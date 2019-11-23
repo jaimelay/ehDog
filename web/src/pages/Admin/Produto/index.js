@@ -102,20 +102,31 @@ export default function Produto() {
                         let errors = {};
 
                         if (!values.cod_produto) { errors.cod_produto = 'É necessário digitar um Código.'; }
-
+                        else if(!/^[0-9]{1,5}$/i.test(values.cod_produto)) { errors.cod_produto = 'O código tem que ser númerico e no máximo 5 digitos.'; }
+                        
                         if (!values.nome_produto) { errors.nome_produto = 'É necessário digitar um Nome.'; }
 
                         if (!values.marca) { errors.marca = 'É necessário digitar uma marca.'; }
 
                         if (!values.valor_unitario) { errors.valor_unitario = 'É necessário digitar um valor.'; }
-
+                        else if(!/^[0-9]+\.[0-9]{2,2}$/i.test(values.valor_unitario)) { errors.valor_unitario = 'O valor tem que ser númerico, e com valor decimal. Ex: 10.00'; }
+                        
                         if (!values.qtd_estoque) { errors.qtd_estoque = 'É necessário digitar a quantidade.'; }
+                        else if(!/^[0-9]{1,7}$/i.test(values.qtd_estoque)) { errors.qtd_estoque = 'A quantidade tem que ser númerica.'; }
 
                         return errors;
                     }}
                     onSubmit={(values, { setErrors, setSubmitting }) => {
                         setTimeout(() => {
-                            addProduct(values);
+                            async function getProduct(cod_produto){
+                                const response = await api.get(`/produtos/${cod_produto}`);
+                                if (response.data.length === 0) {
+                                    addProduct(values);
+                                } else {
+                                    setErrors({ cod_produto: 'Este código ja está sendo utilizado.' });
+                                }
+                            }
+                            getProduct(values.cod_produto);
                         }, 400);
                     }}
                 >
@@ -182,9 +193,9 @@ export default function Produto() {
                                                                                                 onChange={formEdit.handleChange}
                                                                                                 isInvalid={!!formEdit.errors.cod_produto}
                                                                                             />
-                                                                                            <Form.Control.Feedback type="invalid">
-                                                                                                {formEdit.errors.cod_produto}
-                                                                                            </Form.Control.Feedback>
+                                                                                                <Form.Control.Feedback type="invalid">
+                                                                                                    {formEdit.errors.cod_produto}
+                                                                                                </Form.Control.Feedback>
                                                                                         </Form.Group>
 
                                                                                         <Form.Group controlId="validationFormik02">
@@ -313,6 +324,9 @@ export default function Produto() {
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.cod_produto}
                                                     />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        {formAdd.errors.cod_produto}
+                                                    </Form.Control.Feedback>
                                                 </Form.Group>
                                             </td>
                                             <td>
@@ -325,6 +339,9 @@ export default function Produto() {
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.nome_produto}
                                                     />
+                                                    <Form.Control.Feedback type="invalid">
+                                                            {formAdd.errors.nome_produto}
+                                                    </Form.Control.Feedback>
                                                 </Form.Group>
                                             </td>
                                             <td>
@@ -337,6 +354,9 @@ export default function Produto() {
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.marca}
                                                     />
+                                                    <Form.Control.Feedback type="invalid">
+                                                            {formAdd.errors.marca}
+                                                    </Form.Control.Feedback>
                                                 </Form.Group>
                                             </td>
                                             <td>
@@ -349,6 +369,9 @@ export default function Produto() {
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.valor_unitario}
                                                     />
+                                                    <Form.Control.Feedback type="invalid">
+                                                            {formAdd.errors.valor_unitario}
+                                                    </Form.Control.Feedback>
                                                 </Form.Group>
                                             </td>
                                             <td>
@@ -361,6 +384,9 @@ export default function Produto() {
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.qtd_estoque}
                                                     />
+                                                    <Form.Control.Feedback type="invalid">
+                                                            {formAdd.errors.qtd_estoque}
+                                                    </Form.Control.Feedback>
                                                 </Form.Group>
                                             </td>
                                             <td>

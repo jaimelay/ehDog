@@ -27,18 +27,9 @@ function execSQLQueryWhere(sqlQuery, params, res){
         if (error) {
             res.json(error);
         } else {
-            res.send('Deletado com sucesso.');
+            res.send(results);
         }
     });
 }
 
-function execSQLQuery2(sqlQuery){
-    connection.query(sqlQuery, function(error, results, fields){
-        if (error) {
-            return console.log(error);
-        }
-        console.log('executou!');
-    });
-}
-
-module.exports = { connection, execSQLQuery, execSQLQueryWhere, execSQLQuery2 };
+module.exports = { connection, execSQLQuery, execSQLQueryWhere };

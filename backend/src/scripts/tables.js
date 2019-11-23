@@ -1,8 +1,8 @@
-const { execSQLQuery2 } = require('../config/db');
+const { execSQLQuery } = require('../config/db');
 
 module.exports = {
     create_db() {
-        execSQLQuery2('CREATE DATABASE eh_dog;');
+        execSQLQuery('CREATE DATABASE eh_dog;');
     },
 
     createTableCliente() {
@@ -13,7 +13,7 @@ module.exports = {
             email_cliente		VARCHAR(20)	NOT NULL,
             tel_cliente		NUMERIC(9)		NOT NULL
         );`;
-        execSQLQuery2(tableCliente);
+        execSQLQuery(tableCliente);
     },
 
     createTableAnimal() {
@@ -26,7 +26,7 @@ module.exports = {
             porte			VARCHAR(10)	NOT NULL,
             fk_Cliente_CPF	NUMERIC(11)		NOT NULL
         );`;
-        execSQLQuery2(tableAnimal);
+        execSQLQuery(tableAnimal);
     },
     
     createTableVeterinario() {
@@ -39,7 +39,7 @@ module.exports = {
             tel_veterinario	NUMERIC(9)		NOT NULL,
             salario_vet		FLOAT(9, 2)		NOT NULL
         );`;
-        execSQLQuery2(tableVeterinario);
+        execSQLQuery(tableVeterinario);
     },
     
     createTableTosador() {
@@ -51,7 +51,7 @@ module.exports = {
             tel_tosador		NUMERIC(9)		NOT NULL,
             salario_tos		FLOAT(9,2)		NOT NULL
         );`;
-        execSQLQuery2(tableTosador);
+        execSQLQuery(tableTosador);
     },
     
     createTableProduto() {
@@ -62,7 +62,7 @@ module.exports = {
                 valor_unitario	FLOAT(9,2)		NOT NULL,
                 qtd_estoque		NUMERIC(5)		NOT NULL
             );`;
-        execSQLQuery2(tableProduto);
+        execSQLQuery(tableProduto);
     },
     
     createTableSolicita() {
@@ -70,7 +70,7 @@ module.exports = {
                 fk_Cliente_CPF      NUMERIC(11)		NOT NULL,
                 data_solicitacao	DATETIME	NOT NULL
             );`;
-        execSQLQuery2(tableSolicita);
+        execSQLQuery(tableSolicita);
     },
     
     createTableCompra() {
@@ -80,7 +80,7 @@ module.exports = {
             fk_Produto_cod_produto	NUMERIC(5)	NOT NULL,
             fk_Cliente_CPF		NUMERIC(11)	NOT NULL
         );`;
-        execSQLQuery2(tableCompra);
+        execSQLQuery(tableCompra);
     },
     
     createTableServico() {
@@ -92,7 +92,7 @@ module.exports = {
             fk_Animal_cod_animal	NUMERIC(5)	NOT NULL,
             fk_Tosador_CPF		NUMERIC(11)	NOT NULL
         );`;
-        execSQLQuery2(tableServico);
+        execSQLQuery(tableServico);
     },
     
     createTableConsulta() {
@@ -103,7 +103,7 @@ module.exports = {
             fk_Veterinario_CRMV	NUMERIC(5)		NOT NULL,
             fk_Animal_cod_animal	NUMERIC(5)		NOT NULL
         );`;
-        execSQLQuery2(tableConsulta);
+        execSQLQuery(tableConsulta);
     },
 
     alterTableAnimal(){
@@ -111,7 +111,7 @@ module.exports = {
             FOREIGN KEY (fk_Cliente_CPF)
             REFERENCES Cliente(CPF)
             ON DELETE RESTRICT;`;
-        execSQLQuery2(alterTableAnimal);
+        execSQLQuery(alterTableAnimal);
     },
 
     alterTableServico(){
@@ -124,8 +124,8 @@ module.exports = {
             FOREIGN KEY (fk_Tosador_CPF)
             REFERENCES Tosador(CPF)
             ON DELETE RESTRICT;`;
-        execSQLQuery2(alterTableServico);
-        execSQLQuery2(alterTableServico2);
+        execSQLQuery(alterTableServico);
+        execSQLQuery(alterTableServico2);
     },
 
     alterTableSolicita(){
@@ -133,7 +133,7 @@ module.exports = {
             FOREIGN KEY (fk_Cliente_CPF)
             REFERENCES Cliente(CPF)
             ON DELETE SET NULL;`;
-        execSQLQuery2(alterTableSolicita);
+        execSQLQuery(alterTableSolicita);
     },
 
     alterTableCompra(){
@@ -145,8 +145,8 @@ module.exports = {
             FOREIGN KEY (fk_Cliente_CPF)
             REFERENCES Cliente(CPF)
             ON DELETE SET NULL;`;
-        execSQLQuery2(alterTableCompra);
-        execSQLQuery2(alterTableCompra2);
+        execSQLQuery(alterTableCompra);
+        execSQLQuery(alterTableCompra2);
     },
 
     alterTableConsulta(){
@@ -158,8 +158,8 @@ module.exports = {
             FOREIGN KEY (fk_Animal_cod_animal)
             REFERENCES Animal(cod_animal)
             ON DELETE RESTRICT;`;
-        execSQLQuery2(alterTableConsulta);
-        execSQLQuery2(alterTableConsulta2);
+        execSQLQuery(alterTableConsulta);
+        execSQLQuery(alterTableConsulta2);
     },
     
     createAllTables(){
