@@ -8,6 +8,7 @@ const routes = express.Router();
 
 routes.get('/produtos', Produto.getAllProducts);
 routes.post('/produtos', Produto.insertProduct);
+routes.put('/produtos', Produto.updateProduct);
 routes.delete('/produtos/:codProduto', Produto.deleteProduct);
 
 routes.get('/clientes', Cliente.getAllClients);

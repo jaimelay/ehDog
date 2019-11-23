@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import api from '../../../services/api'
 import HeaderAdmin from '../HeaderAdmin';
 
-
 const ProductContainer = styled.div`
     display: flex
     flex-direction: column;
@@ -76,6 +75,21 @@ export default function Produto() {
         window.location.reload(false);
     }
 
+    async function updateProduct(oldCodProduto, values){
+        const { cod_produto, nome_produto, marca, valor_unitario, qtd_estoque } = values;
+        await api.put(`/produtos`, {
+            oldCodProduto,
+            cod_produto,
+            nome_produto,
+            marca,
+            valor_unitario,
+            qtd_estoque
+        })
+        setProductID({});
+        handleCloseModalUpdate();
+        window.location.reload(false);
+    }
+
     return (
         <>
         <ProductContainer>
@@ -106,7 +120,7 @@ export default function Produto() {
                     }}
                 >
                     {(formAdd) => (
-                        <Form noValidate onSubmit={formAdd.handleSubmit}>   
+                        <Form noValidate onSubmit={e => {e.stopPropagation(); formAdd.handleSubmit(e);}}>   
                             <Table striped bordered hover>
                                 <thead>
                                     <tr>
@@ -137,33 +151,28 @@ export default function Produto() {
                                                                                 <Modal.Title>Altere com o que você deseja</Modal.Title>
                                                                             </Modal.Header>
                                                                             <Modal.Body>
+                                                                            <>
                                                                             <Formik
                                                                                 initialValues={{ cod_produto: `${productID.cod_produto}`, nome_produto: `${productID.nome_produto}`, marca: `${productID.marca}`, valor_unitario: `${productID.valor_unitario}`, qtd_estoque: `${productID.qtd_estoque}` }}
                                                                                 validate={values => {
                                                                                     let errors = {};
 
-                                                                                    if (!values.firstName) { errors.firstName = 'É necessário digitar seu nome.'; }
-
-                                                                                    if (!values.lastName) { errors.lastName = 'É necessário digitar seu sobrenome.'; }
-
-                                                                                    if (!values.email) {
-                                                                                        errors.email = 'É necessário digitar algum e-mail.';
-                                                                                    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-                                                                                        errors.email = 'Endereço de e-mail inválido.';
-                                                                                    }
+                                                                                    if (!values.cod_produto) { errors.cod_produto = 'É necessário digitar um código.'; }
+                                                                                    if (!values.nome_produto) { errors.nome_produto = 'É necessário digitar um nome.'; }
+                                                                                    if (!values.marca) { errors.marca = 'É necessário digitar uma marca.'; }
+                                                                                    if (!values.valor_unitario) { errors.valor_unitario = 'É necessário digitar um valor unitário.'; }
+                                                                                    if (!values.qtd_estoque) { errors.qtd_estoque = 'É necessário digitar uma quantidade.'; }
                         
                                                                                     return errors;
                                                                                 }}
                                                                                 onSubmit={(values, { setErrors, setSubmitting }) => {
                                                                                     setTimeout(() => {
-                                                                                        async function handleSubmit() {
-                                                                                        }
-                                                                                        handleSubmit();
+                                                                                        updateProduct(productID.cod_produto, values);
                                                                                     }, 400);
                                                                                 }}
                                                                             >
                                                                                 {(formEdit) => (
-                                                                                    <Form noValidate onSubmit={formEdit.handleSubmit}>
+                                                                                    <Form noValidate onSubmit={e => {e.stopPropagation(); formEdit.handleSubmit(e);}}>
                                                                                         <Form.Group controlId="validationFormik01">
                                                                                             <Form.Label>Código do Produto*</Form.Label>
                                                                                             <Form.Control
@@ -235,19 +244,22 @@ export default function Produto() {
                                                                                                 {formEdit.errors.qtd_estoque}
                                                                                             </Form.Control.Feedback>
                                                                                         </Form.Group>
-                                                                                        <Button type="submit">Salvar</Button>
+                                                                                        <ButtonContainer>
+                                                                                            <Buttons>
+                                                                                                <Button type="submit" onClick={() => {formEdit.submitForm();}}>Salvar</Button>
+                                                                                            </Buttons>
+                                                                                            <Buttons>
+                                                                                                <Button variant="secondary" onClick={handleCloseModalUpdate}>
+                                                                                                    Cancelar
+                                                                                                </Button>
+                                                                                            </Buttons>
+                                                                                        </ButtonContainer>
                                                                                     </Form>
                                                                                 )}
                                                                             </Formik>
+                                                                            </>
                                                                             </Modal.Body>
-                                                                            <Modal.Footer>
-                                                                            <Button variant="secondary" onClick={handleCloseModalDelete}>
-                                                                                Cancelar
-                                                                            </Button>
-                                                                            <Button variant="primary" onClick={() => {deleteProduct(productID.cod_produto); setProductID({}); console.log(productID); handleCloseModalDelete();}}>
-                                                                                Salvar
-                                                                            </Button>
-                                                                            </Modal.Footer>
+                                                                            <Modal.Footer></Modal.Footer>
                                                                         </Modal>
                                                                     </Buttons>
                                                                     <Buttons>
@@ -260,12 +272,18 @@ export default function Produto() {
                                                                                 {`Você deseja mesmo deletar o produto ( ${productID.nome_produto} ) com código ( ${productID.cod_produto} ) ?`}
                                                                             </Modal.Body>
                                                                             <Modal.Footer>
-                                                                            <Button variant="secondary" onClick={handleCloseModalDelete}>
-                                                                                Cancelar
-                                                                            </Button>
-                                                                            <Button variant="primary" onClick={() => {deleteProduct(productID.cod_produto); setProductID({}); handleCloseModalDelete();}}>
-                                                                                Deletar
-                                                                            </Button>
+                                                                                <ButtonContainer>
+                                                                                    <Buttons>
+                                                                                        <Button variant="secondary" onClick={handleCloseModalDelete}>
+                                                                                            Cancelar
+                                                                                        </Button>
+                                                                                    </Buttons>
+                                                                                    <Buttons>
+                                                                                        <Button variant="primary" onClick={() => {deleteProduct(productID.cod_produto); setProductID({}); handleCloseModalDelete();}}>
+                                                                                            Deletar
+                                                                                        </Button>
+                                                                                    </Buttons>
+                                                                                </ButtonContainer>
                                                                             </Modal.Footer>
                                                                         </Modal>
                                                                     </Buttons>
@@ -347,7 +365,7 @@ export default function Produto() {
                                             </td>
                                             <td>
                                                 <Buttons>
-                                                    <Button type="submit">Adicionar Produto</Button>
+                                                    <Button type="submit" onClick={() => formAdd.submitForm()}>Adicionar Produto</Button>
                                                 </Buttons>
                                             </td>
                                         </tr>
