@@ -168,17 +168,36 @@ export default function Produto() {
                                                                                 validate={values => {
                                                                                     let errors = {};
 
-                                                                                    if (!values.cod_produto) { errors.cod_produto = 'É necessário digitar um código.'; }
-                                                                                    if (!values.nome_produto) { errors.nome_produto = 'É necessário digitar um nome.'; }
+                                                                                    if (!values.cod_produto) { errors.cod_produto = 'É necessário digitar um Código.'; }
+                                                                                    else if(!/^[0-9]{1,5}$/i.test(values.cod_produto)) { errors.cod_produto = 'O código tem que ser númerico e no máximo 5 digitos.'; }
+                                                                                    
+                                                                                    if (!values.nome_produto) { errors.nome_produto = 'É necessário digitar um Nome.'; }
+                                                            
                                                                                     if (!values.marca) { errors.marca = 'É necessário digitar uma marca.'; }
-                                                                                    if (!values.valor_unitario) { errors.valor_unitario = 'É necessário digitar um valor unitário.'; }
-                                                                                    if (!values.qtd_estoque) { errors.qtd_estoque = 'É necessário digitar uma quantidade.'; }
+                                                            
+                                                                                    if (!values.valor_unitario) { errors.valor_unitario = 'É necessário digitar um valor.'; }
+                                                                                    else if(!/^[0-9]+\.[0-9]{2,2}$/i.test(values.valor_unitario)) { errors.valor_unitario = 'O valor tem que ser númerico, e com valor decimal. Ex: 10.00'; }
+                                                                                    
+                                                                                    if (!values.qtd_estoque) { errors.qtd_estoque = 'É necessário digitar a quantidade.'; }
+                                                                                    else if(!/^[0-9]{1,7}$/i.test(values.qtd_estoque)) { errors.qtd_estoque = 'A quantidade tem que ser númerica.'; }
                         
                                                                                     return errors;
                                                                                 }}
                                                                                 onSubmit={(values, { setErrors, setSubmitting }) => {
                                                                                     setTimeout(() => {
-                                                                                        updateProduct(productID.cod_produto, values);
+                                                                                        async function getProduct(cod_produto){
+                                                                                            const response = await api.get(`/produtos/${cod_produto}`);
+                                                                                            if (response.data.length === 0) {
+                                                                                                updateProduct(productID.cod_produto, values);
+                                                                                            } else {
+                                                                                                setErrors({ cod_produto: 'Este código ja está sendo utilizado.' });
+                                                                                            }
+                                                                                        }
+                                                                                        if (productID.cod_produto.toString() !== values.cod_produto) {
+                                                                                            getProduct(values.cod_produto);
+                                                                                        } else { 
+                                                                                            updateProduct(productID.cod_produto, values);
+                                                                                        } 
                                                                                     }, 400);
                                                                                 }}
                                                                             >

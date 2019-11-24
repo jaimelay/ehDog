@@ -13,10 +13,10 @@ routes.put('/produtos', Produto.updateProduct);
 routes.delete('/produtos/:codProduto', Produto.deleteProduct);
 
 routes.get('/clientes', Cliente.getAllClients);
-routes.delete('/clientes/:CPF', Cliente.deleteClient);
+routes.get('/clientes/:CPF', Cliente.getClient);
 routes.post('/clientes', Cliente.insertClient);
 routes.put('/clientes', Cliente.updateClient);
-routes.get('/clientes/:CPF', Cliente.getClient);
+routes.delete('/clientes/:CPF', Cliente.deleteClient);
 
 
 routes.get('/tosador', Tosador.getAllTosador);

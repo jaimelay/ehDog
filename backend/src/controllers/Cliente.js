@@ -9,10 +9,11 @@ module.exports = {
         const { CPF } = req.params;
         execSQLQueryWhere('DELETE FROM Cliente WHERE CPF = ?', [CPF], res);
     },
+
     insertClient(req, res){
+        console.log(req.body);
         const { CPF, nome_cliente, end_cliente, email_cliente, tel_cliente } = req.body;
-        execSQLQuery(`INSERT INTO cliente(CPF, nome_cliente, end_cliente, email_cliente, tel_cliente) VALUES (${CPF}, '${nome_cliente}', '${end_cliente}', ${email_cliente}, ${tel_cliente})`, res);
-        console.log(res);
+        execSQLQuery(`INSERT INTO Cliente(CPF, nome_cliente, end_cliente, email_cliente, tel_cliente) VALUES (${CPF}, '${nome_cliente}', '${end_cliente}', '${email_cliente}', '${tel_cliente}')`, res);
     },
 
     getClient(req, res){
@@ -21,7 +22,7 @@ module.exports = {
     },
 
     updateClient(req, res){
-        const {  CPF, nome_cliente, end_cliente, email_cliente, tel_cliente } = req.body;
-        execSQLQuery(`UPDATE Cliente SET CPF = ${CPF}, nome_cliente = '${nome_cliente}', end_cliente = '${end_cliente}', email_cliente = ${email_cliente}, tel_cliente = ${tel_cliente} WHERE CPF = ${CPF}`, res);
+        const { CPF, nome_cliente, end_cliente, email_cliente, tel_cliente } = req.body;
+        execSQLQuery(`UPDATE Cliente SET CPF = ${CPF}, nome_cliente = '${nome_cliente}', end_cliente = '${end_cliente}', email_cliente = '${email_cliente}', tel_cliente = '${tel_cliente}' WHERE CPF = ${CPF}`, res);
     }
 }

@@ -7,11 +7,11 @@ module.exports = {
 
     createTableCliente() {
         const tableCliente = `CREATE TABLE Cliente (
-            CPF			NUMERIC(11)		NOT NULL	PRIMARY KEY,
+            CPF			        NUMERIC(11) NOT NULL	PRIMARY KEY,
             nome_cliente		VARCHAR(40)	NOT NULL,
-            end_cliente		VARCHAR(80)	NOT NULL,
+            end_cliente		    VARCHAR(80)	NOT NULL,
             email_cliente		VARCHAR(20)	NOT NULL,
-            tel_cliente		NUMERIC(9)		NOT NULL
+            tel_cliente		    NUMERIC(9)	    NOT NULL
         );`;
         execSQLQuery(tableCliente);
     },

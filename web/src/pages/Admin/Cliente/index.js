@@ -32,7 +32,7 @@ const Buttons = styled.div`
 `;
 
 export default function Cliente() {
-    const [customers, setcustomers] = useState([]);
+    const [customers, setCustomers] = useState([]);
     const [showModalDelete, setShowModalDelete] = useState(false);
     const [showModalUpdate, setShowModalUpdate] = useState(false);
     const [customerID, setCustomerID] = useState({});
@@ -52,10 +52,11 @@ export default function Cliente() {
     useEffect(() => {
         async function loadcustomers() {
             const response = await api.get('/clientes');
-            setcustomers(response.data);
+            setCustomers(response.data);
         }
         loadcustomers();
     }, []);
+
     async function deleteCliente(CPF){
         await api.delete(`/clientes/${CPF}`);
         window.location.reload(false);
@@ -73,9 +74,10 @@ export default function Cliente() {
         window.location.reload(false);
     }
 
-    async function updateCliente( values){
+    async function updateCliente(oldCPF, values){
         const { CPF, nome_cliente, end_cliente, email_cliente, tel_cliente } = values;
         await api.put(`/clientes`, {
+            oldCPF,
             CPF,
             nome_cliente,
             end_cliente,
@@ -86,11 +88,14 @@ export default function Cliente() {
         handleCloseModalUpdate();
         window.location.reload(false);
     }
-    return(<>
-            <ClienteContainer><HeaderAdmin />
+
+    return(
+        <>
+        <ClienteContainer>
+            <HeaderAdmin />
             <Container>
-            <h1>Clientes</h1>
-            <Formik
+                <h1>Clientes</h1>
+                <Formik
                     initialValues={{ CPF: '', nome_cliente: '', end_cliente: '', email_cliente: '', tel_cliente: '' }}
                     validate={values => {
                         let errors = {};
@@ -103,15 +108,16 @@ export default function Cliente() {
                         if (!values.end_cliente) { errors.end_cliente = 'É necessário digitar o endereço do cliente.'; }
 
                         if (!values.email_cliente) { errors.email_cliente = 'É necessário digitar um e-mail.'; }
-                        //else if(!/^[0-9]+\.[0-9]{2,2}$/i.test(values.email_cliente)) { errors.email_cliente = 'O valor tem que ser númerico, e com valor decimal. Ex: 10.00'; }
+                        else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email_cliente)) { errors.email_cliente = 'O email é inválido. Exemplo de email válido: email@exemplo.com'; }
                         
                         if (!values.tel_cliente) { errors.tel_cliente = 'É necessário digitar um telefone.'; }
-                        //else if(!/^[0-9]{1,7}$/i.test(values.tel_cliente)) { errors.tel_cliente = 'A quantidade tem que ser númerica.'; }
+                        else if(!/^[0-9]{8,9}$/i.test(values.tel_cliente)) { errors.tel_cliente = 'O telefone tem que ser numérico e no min 8 e max 9.'; }
 
                         return errors;
                     }}
                     onSubmit={(values, { setErrors, setSubmitting }) => {
                         setTimeout(() => {
+                            console.log(values.tel_cliente)
                             async function getCliente(CPF){
                                 const response = await api.get(`/clientes/${CPF}`);
                                 if (response.data.length === 0) {
@@ -138,175 +144,195 @@ export default function Cliente() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        { customers.length > 0 ? (
-                                            <>
-                                                { customers.map(customer => (
-                                                        <tr key={customer.CPF}>                    
-                                                            <td>{customer.CPF}</td>
-                                                            <td>{customer.nome_cliente}</td>
-                                                            <td>{customer.end_cliente}</td>
-                                                            <td>{customer.email_cliente}</td>
-                                                            <td>{customer.tel_cliente}</td>
-                                                            <td>
-                                                                <ButtonContainer>
-                                                                    <Buttons>
-                                                                        <Button variant="warning" onClick={() => {setCustomerID(customer); handleShowModalUpdate();}}>Editar</Button>
-                                                                        <Modal show={showModalUpdate} onHide={handleCloseModalUpdate} animation={true}>
-                                                                            <Modal.Header closeButton>
-                                                                                <Modal.Title>Altere com o que você deseja</Modal.Title>
-                                                                            </Modal.Header>
-                                                                            <Modal.Body>
-                                                                            <>
-                                                                            <Formik
-                                                                                initialValues={{ CPF: `${customerID.CPF}`, nome_cliente: `${customerID.nome_cliente}`, end_cliente: `${customerID.end_cliente}`, email_cliente: `${customerID.email_cliente}`, tel_cliente: `${customerID.tel_cliente}` }}
-                                                                                validate={values => {
-                                                                                    let errors = {};
+                                    { customers.length > 0 ? (
+                                        <>
+                                            { customers.map(customer => (
+                                                <tr key={customer.CPF}>                    
+                                                    <td>{customer.CPF}</td>
+                                                    <td>{customer.nome_cliente}</td>
+                                                    <td>{customer.end_cliente}</td>
+                                                    <td>{customer.email_cliente}</td>
+                                                    <td>{customer.tel_cliente}</td>
+                                                    <td>
+                                                        <ButtonContainer>
+                                                            <Buttons>
+                                                                <Button variant="warning" onClick={() => {setCustomerID(customer); handleShowModalUpdate();}}>Editar</Button>
+                                                                <Modal show={showModalUpdate} onHide={handleCloseModalUpdate} animation={true}>
+                                                                    <Modal.Header closeButton>
+                                                                        <Modal.Title>Altere com o que você deseja</Modal.Title>
+                                                                    </Modal.Header>
+                                                                    <Modal.Body>
+                                                                    <>
+                                                                    <Formik
+                                                                        initialValues={{ CPF: `${customerID.CPF}`, nome_cliente: `${customerID.nome_cliente}`, end_cliente: `${customerID.end_cliente}`, email_cliente: `${customerID.email_cliente}`, tel_cliente: `${customerID.tel_cliente}` }}
+                                                                        validate={values => {
+                                                                            let errors = {};
 
-                                                                                    if (!values.CPF) { errors.CPF = 'É necessário digitar um CPF válido.'; }
-                                                                                    if (!values.nome_cliente) { errors.nome_cliente = 'É necessário digitar um nome.'; }
-                                                                                    if (!values.end_cliente) { errors.end_cliente = 'É necessário digitar um endereço.'; }
-                                                                                    if (!values.email_cliente) { errors.email_cliente = 'É necessário digitar um e-mail válido.'; }
-                                                                                    if (!values.tel_cliente) { errors.tel_cliente = 'É necessário digitar um telefone.'; }
-                        
-                                                                                    return errors;
-                                                                                }}
-                                                                                onSubmit={(values, { setErrors, setSubmitting }) => {
-                                                                                    setTimeout(() => {
-                                                                                        updateCliente( values);
-                                                                                    }, 400);
-                                                                                }}
-                                                                            >
-                                                                                {(formEdit) => (
-                                                                                    <Form noValidate onSubmit={e => {e.stopPropagation(); formEdit.handleSubmit(e);}}>
-                                                                                        <Form.Group controlId="validationFormik01">
-                                                                                            <Form.Label>CPF do Cliente*</Form.Label>
-                                                                                            <Form.Control
-                                                                                                type="text"
-                                                                                                name="CPF"
-                                                                                                value={formEdit.values.CPF}
-                                                                                                onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.CPF}
-                                                                                            />
-                                                                                                <Form.Control.Feedback type="invalid">
-                                                                                                    {formEdit.errors.CPF}
-                                                                                                </Form.Control.Feedback>
-                                                                                        </Form.Group>
+                                                                            if (!values.CPF) { errors.CPF = 'É necessário digitar um CPF válido.'; }
+                                                                            else if(!/^[0-9]{11}$/i.test(values.CPF)) { errors.CPF = 'O CPF deve ter 11 dígitos numéricos.'; }
+                                                                            
+                                                                            if (!values.nome_cliente) { errors.nome_cliente = 'É necessário digitar um Nome.'; }
+                                                    
+                                                                            if (!values.end_cliente) { errors.end_cliente = 'É necessário digitar o endereço do cliente.'; }
+                                                    
+                                                                            if (!values.email_cliente) { errors.email_cliente = 'É necessário digitar um e-mail.'; }
+                                                                            else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email_cliente)) { errors.email_cliente = 'O email é inválido. Exemplo de email válido: email@exemplo.com'; }
+                                                                            
+                                                                            if (!values.tel_cliente) { errors.tel_cliente = 'É necessário digitar um telefone.'; }
+                                                                            else if(!/^[0-9]{8,9}$/i.test(values.tel_cliente)) { errors.tel_cliente = 'O telefone tem que ser numérico e no min 8 e max 9.'; }
+                
+                                                                            return errors;
+                                                                        }}
+                                                                        onSubmit={(values, { setErrors, setSubmitting }) => {
+                                                                            setTimeout(() => {
+                                                                                async function getCliente(CPF){
+                                                                                    const response = await api.get(`/clientes/${CPF}`);
+                                                                                    if (response.data.length === 0) {
+                                                                                        updateCliente(customerID.CPF, values);
+                                                                                    } else {
+                                                                                        setErrors({ CPF: 'Este CPF ja está sendo utilizado.' });
+                                                                                    }
+                                                                                }
+                                                                                if (customerID.CPF.toString() !== values.CPF) {
+                                                                                    getCliente(values.CPF);
+                                                                                } else { 
+                                                                                    updateCliente(customerID.CPF, values);
+                                                                                } 
+                                                                            }, 400);
+                                                                        }}
+                                                                    >
+                                                                        {(formEdit) => (
+                                                                            <Form noValidate onSubmit={e => {e.stopPropagation(); formEdit.handleSubmit(e);}}>
+                                                                                <Form.Group controlId="validationFormik01">
+                                                                                    <Form.Label>CPF do Cliente*</Form.Label>
+                                                                                    <Form.Control
+                                                                                        type="text"
+                                                                                        name="CPF"
+                                                                                        value={formEdit.values.CPF}
+                                                                                        onChange={formEdit.handleChange}
+                                                                                        isInvalid={!!formEdit.errors.CPF}
+                                                                                    />
+                                                                                        <Form.Control.Feedback type="invalid">
+                                                                                            {formEdit.errors.CPF}
+                                                                                        </Form.Control.Feedback>
+                                                                                </Form.Group>
 
-                                                                                        <Form.Group controlId="validationFormik02">
-                                                                                            <Form.Label>Nome do Cliente*</Form.Label>
-                                                                                            <Form.Control
-                                                                                                type="text"
-                                                                                                name="nome_cliente"
-                                                                                                value={formEdit.values.nome_cliente}
-                                                                                                onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.nome_cliente}
-                                                                                            />
-                                                                                            <Form.Control.Feedback type="invalid">
-                                                                                                {formEdit.errors.nome_cliente}
-                                                                                            </Form.Control.Feedback>
-                                                                                        </Form.Group>
-                                                                                    
+                                                                                <Form.Group controlId="validationFormik02">
+                                                                                    <Form.Label>Nome do Cliente*</Form.Label>
+                                                                                    <Form.Control
+                                                                                        type="text"
+                                                                                        name="nome_cliente"
+                                                                                        value={formEdit.values.nome_cliente}
+                                                                                        onChange={formEdit.handleChange}
+                                                                                        isInvalid={!!formEdit.errors.nome_cliente}
+                                                                                    />
+                                                                                    <Form.Control.Feedback type="invalid">
+                                                                                        {formEdit.errors.nome_cliente}
+                                                                                    </Form.Control.Feedback>
+                                                                                </Form.Group>
+                                                                            
 
-                                                                                        <Form.Group controlId="validationFormik03">
-                                                                                            <Form.Label>Endereço*</Form.Label>
-                                                                                            <Form.Control
-                                                                                                type="text"
-                                                                                                name="end_cliente"
-                                                                                                value={formEdit.values.end_cliente}
-                                                                                                onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.end_cliente}
-                                                                                            />
-                                                                                            <Form.Control.Feedback type="invalid">
-                                                                                                {formEdit.errors.end_cliente}
-                                                                                            </Form.Control.Feedback>
-                                                                                        </Form.Group>
+                                                                                <Form.Group controlId="validationFormik03">
+                                                                                    <Form.Label>Endereço*</Form.Label>
+                                                                                    <Form.Control
+                                                                                        type="text"
+                                                                                        name="end_cliente"
+                                                                                        value={formEdit.values.end_cliente}
+                                                                                        onChange={formEdit.handleChange}
+                                                                                        isInvalid={!!formEdit.errors.end_cliente}
+                                                                                    />
+                                                                                    <Form.Control.Feedback type="invalid">
+                                                                                        {formEdit.errors.end_cliente}
+                                                                                    </Form.Control.Feedback>
+                                                                                </Form.Group>
 
-                                                                                        <Form.Group controlId="validationFormik04">
-                                                                                            <Form.Label>e-mail*</Form.Label>
-                                                                                            <Form.Control
-                                                                                                type="text"
-                                                                                                name="email_cliente"
-                                                                                                value={formEdit.values.email_cliente}
-                                                                                                onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.email_cliente}
-                                                                                            />
-                                                                                            <Form.Control.Feedback type="invalid">
-                                                                                                {formEdit.errors.email_cliente}
-                                                                                            </Form.Control.Feedback>
-                                                                                        </Form.Group>
+                                                                                <Form.Group controlId="validationFormik04">
+                                                                                    <Form.Label>E-mail*</Form.Label>
+                                                                                    <Form.Control
+                                                                                        type="text"
+                                                                                        name="email_cliente"
+                                                                                        value={formEdit.values.email_cliente}
+                                                                                        onChange={formEdit.handleChange}
+                                                                                        isInvalid={!!formEdit.errors.email_cliente}
+                                                                                    />
+                                                                                    <Form.Control.Feedback type="invalid">
+                                                                                        {formEdit.errors.email_cliente}
+                                                                                    </Form.Control.Feedback>
+                                                                                </Form.Group>
 
-                                                                                        <Form.Group controlId="validationFormik05">
-                                                                                            <Form.Label>Telefone*</Form.Label>
-                                                                                            <Form.Control
-                                                                                                type="text"
-                                                                                                name="tel_cliente"
-                                                                                                value={formEdit.values.tel_cliente}
-                                                                                                onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.tel_cliente}
-                                                                                            />
-                                                                                
-                                                                                            <Form.Control.Feedback type="invalid">
-                                                                                                {formEdit.errors.tel_cliente}
-                                                                                            </Form.Control.Feedback>
-                                                                                        </Form.Group>
-                                                                                        <ButtonContainer>
-                                                                                            <Buttons>
-                                                                                                <Button type="submit" onClick={() => {formEdit.submitForm();}}>Salvar</Button>
-                                                                                            </Buttons>
-                                                                                            <Buttons>
-                                                                                                <Button variant="secondary" onClick={handleCloseModalUpdate}>
-                                                                                                    Cancelar
-                                                                                                </Button>
-                                                                                            </Buttons>
-                                                                                        </ButtonContainer>
-                                                                                    </Form>
-                                                                                )}
-                                                                            </Formik>
-                                                                            </>
-                                                                            </Modal.Body>
-                                                                            <Modal.Footer></Modal.Footer>
-                                                                        </Modal>
-                                                                    </Buttons>
-                                                                    <Buttons>
-                                                                        <Button variant="danger" onClick={() => { setCustomerID(customer); handleShowModalDelete(); }}>Deletar</Button>
-                                                                        <Modal show={showModalDelete} onHide={handleCloseModalDelete} animation={true}>
-                                                                            <Modal.Header closeButton>
-                                                                                <Modal.Title>Você quer mesmo fazer isso?</Modal.Title>
-                                                                            </Modal.Header>
-                                                                            <Modal.Body>
-                                                                                {`Você deseja mesmo deletar o cliente ( ${customerID.nome_cliente} ) com CPF ( ${customerID.CPF} ) ?`}
-                                                                            </Modal.Body>
-                                                                            <Modal.Footer>
+                                                                                <Form.Group controlId="validationFormik05">
+                                                                                <Form.Label>Telefone*</Form.Label>
+                                                                                    <Form.Control
+                                                                                        type="text"
+                                                                                        name="tel_cliente"
+                                                                                        placeholder="25413344"
+                                                                                        value={formEdit.values.tel_cliente}
+                                                                                        onChange={formEdit.handleChange}
+                                                                                        isInvalid={!!formEdit.errors.tel_cliente}
+                                                                                    />
+                                                                                    <Form.Control.Feedback type="invalid">
+                                                                                            {formEdit.errors.tel_cliente}
+                                                                                    </Form.Control.Feedback>
+                                                                                </Form.Group>
+
                                                                                 <ButtonContainer>
                                                                                     <Buttons>
-                                                                                        <Button variant="secondary" onClick={handleCloseModalDelete}>
+                                                                                        <Button type="submit" onClick={() => {formEdit.submitForm();}}>Salvar</Button>
+                                                                                    </Buttons>
+                                                                                    <Buttons>
+                                                                                        <Button variant="secondary" onClick={handleCloseModalUpdate}>
                                                                                             Cancelar
                                                                                         </Button>
                                                                                     </Buttons>
-                                                                                    <Buttons>
-                                                                                        <Button variant="primary" onClick={() => {deleteCliente(customerID.CPF); setCustomerID({}); handleCloseModalDelete();}}>
-                                                                                            Deletar
-                                                                                        </Button>
-                                                                                    </Buttons>
                                                                                 </ButtonContainer>
-                                                                            </Modal.Footer>
-                                                                        </Modal>
-                                                                    </Buttons>
-                                                                </ButtonContainer>
-                                                            </td>
-                                                        </tr>
-                                            
+                                                                            </Form>
+                                                                        )}
+                                                                    </Formik>
+                                                                    </>
+                                                                    </Modal.Body>
+                                                                    <Modal.Footer></Modal.Footer>
+                                                                </Modal>
+                                                            </Buttons>
+                                                            <Buttons>
+                                                                <Button variant="danger" onClick={() => { setCustomerID(customer); handleShowModalDelete(); }}>Deletar</Button>
+                                                                <Modal show={showModalDelete} onHide={handleCloseModalDelete} animation={true}>
+                                                                    <Modal.Header closeButton>
+                                                                        <Modal.Title>Você quer mesmo fazer isso?</Modal.Title>
+                                                                    </Modal.Header>
+                                                                    <Modal.Body>
+                                                                        {`Você deseja mesmo deletar o cliente ( ${customerID.nome_cliente} ) com CPF ( ${customerID.CPF} ) ?`}
+                                                                    </Modal.Body>
+                                                                    <Modal.Footer>
+                                                                        <ButtonContainer>
+                                                                            <Buttons>
+                                                                                <Button variant="secondary" onClick={handleCloseModalDelete}>
+                                                                                    Cancelar
+                                                                                </Button>
+                                                                            </Buttons>
+                                                                            <Buttons>
+                                                                                <Button variant="primary" onClick={() => {deleteCliente(customerID.CPF); setCustomerID({}); handleCloseModalDelete();}}>
+                                                                                    Deletar
+                                                                                </Button>
+                                                                            </Buttons>
+                                                                        </ButtonContainer>
+                                                                    </Modal.Footer>
+                                                                </Modal>
+                                                            </Buttons>
+                                                        </ButtonContainer>
+                                                    </td>
+                                                </tr>
                                             ))}
                                             </>
                                                 ):(
                                                     <tr>                    
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                </tr> )}
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr> 
+                                                )}
                                                 <tr>
                                             <td>
                                                 <Form.Group controlId="validationFormik01">
@@ -358,7 +384,7 @@ export default function Cliente() {
                                                     <Form.Control
                                                         type="text"
                                                         name="email_cliente"
-                                                        placeholder="Ex: mariajose@gmail.com"
+                                                        placeholder="email@exemplo.com"
                                                         value={formAdd.values.email_cliente}
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.email_cliente}
@@ -373,7 +399,7 @@ export default function Cliente() {
                                                     <Form.Control
                                                         type="text"
                                                         name="tel_cliente"
-                                                        placeholder="Ex: 26522626"
+                                                        placeholder="25413344"
                                                         value={formAdd.values.tel_cliente}
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.tel_cliente}
@@ -389,17 +415,13 @@ export default function Cliente() {
                                                 </Buttons>
                                             </td>
                                         </tr>
-                                                
                                 </tbody>
-                                </Table>
-                                </Form>
-            )}
-            </Formik>
+                            </Table>
+                        </Form>
+                    )}
+                </Formik>
             </Container>
-            
-            </ClienteContainer>    
-    
+        </ClienteContainer>    
         </>
     );
-
-    }
+}
