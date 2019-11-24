@@ -14,8 +14,13 @@ routes.delete('/produtos/:codProduto', Produto.deleteProduct);
 
 routes.get('/clientes', Cliente.getAllClients);
 routes.delete('/clientes/:CPF', Cliente.deleteClient);
+routes.post('/clientes', Cliente.insertClient);
+routes.put('/clientes', Cliente.updateClient);
+routes.get('/clientes/:CPF', Cliente.getClient);
+
 
 routes.get('/tosador', Tosador.getAllTosador);
 routes.delete('/tosador/:CPF', Tosador.deleteTosador);
+
 
 module.exports = routes;
