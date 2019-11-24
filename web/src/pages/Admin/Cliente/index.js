@@ -343,7 +343,7 @@ export default function Cliente() {
                                                     <Form.Control
                                                         type="text"
                                                         name="end_cliente"
-                                                        placeholder="Digite a end_cliente"
+                                                        placeholder="Digite o endereço do cliente"
                                                         value={formAdd.values.end_cliente}
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.end_cliente}
