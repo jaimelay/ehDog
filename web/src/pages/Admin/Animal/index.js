@@ -483,14 +483,14 @@ export default function Animal() {
                                             </td>
                                             <td>
                                                 <Form.Group controlId="validationFormik07">
-                                                    <Form.Control
-                                                        as="select"
-                                                        name="fk_Cliente_CPF"
-                                                        value={formAdd.values.fk_Cliente_CPF}
-                                                        onChange={formAdd.handleChange}
-                                                        isInvalid={!!formAdd.errors.fk_Cliente_CPF}
-                                                    >
                                                         { customers.length > 0 ? (
+                                                        <Form.Control
+                                                            as="select"
+                                                            name="fk_Cliente_CPF"
+                                                            value={formAdd.values.fk_Cliente_CPF}
+                                                            onChange={formAdd.handleChange}
+                                                            isInvalid={!!formAdd.errors.fk_Cliente_CPF}
+                                                        >
                                                             <>
                                                             <option value="" label="Selecione o CPF do Dono" />
                                                             { customers.map(customer => (
@@ -501,10 +501,10 @@ export default function Animal() {
                                                                 />
                                                             ))}
                                                             </>
+                                                        </Form.Control>
                                                         ) : (
                                                             <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
                                                         )}
-                                                    </Form.Control>
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.fk_Cliente_CPF}
                                                     </Form.Control.Feedback>

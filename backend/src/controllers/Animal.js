@@ -11,13 +11,11 @@ module.exports = {
     },
 
     deleteAnimal(req, res){
-        console.log(req.params);
         const { codAnimal } = req.params;
         execSQLQueryWhere('DELETE FROM Animal WHERE cod_animal = ?', [codAnimal], res);
     },
 
     insertAnimal(req, res){
-        console.log(req.body);
         const { cod_animal, nome_animal, tipo, alergia, raca, porte, fk_Cliente_CPF } = req.body;
         execSQLQuery(`INSERT INTO Animal(cod_animal, nome_animal, tipo, alergia, raca, porte, fk_Cliente_CPF) VALUES (${cod_animal}, '${nome_animal}', '${tipo}', '${alergia}', '${raca}', '${porte}', ${fk_Cliente_CPF})`, res);
     },
