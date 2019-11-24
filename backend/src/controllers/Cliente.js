@@ -11,7 +11,6 @@ module.exports = {
     },
 
     insertClient(req, res){
-        console.log(req.body);
         const { CPF, nome_cliente, end_cliente, email_cliente, tel_cliente } = req.body;
         execSQLQuery(`INSERT INTO Cliente(CPF, nome_cliente, end_cliente, email_cliente, tel_cliente) VALUES (${CPF}, '${nome_cliente}', '${end_cliente}', '${email_cliente}', '${tel_cliente}')`, res);
     },

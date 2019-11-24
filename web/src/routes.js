@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Admin from './pages/Admin';
 import Produto from './pages/Admin/Produto';
 import Cliente from './pages/Admin/Cliente';
+import Animal from './pages/Admin/Animal';
 
 export default function Routes() {
     return (
@@ -20,6 +21,7 @@ export default function Routes() {
                           <Route path={`${url}/`} component={Admin} exact />
                           <Route path={`${url}/produto`} component={Produto} />
                           <Route path={`${url}/cliente`} component={Cliente} />
+                          <Route path={`${url}/animal`} component={Animal} />
 
                         </>
                       )}

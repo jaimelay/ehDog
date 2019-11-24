@@ -2,6 +2,7 @@ const express = require('express');
 
 const Produto = require('./controllers/Produto');
 const Cliente = require('./controllers/Cliente');
+const Animal = require('./controllers/Animal');
 const Tosador = require('./controllers/Tosador');
 
 const routes = express.Router();
@@ -18,6 +19,11 @@ routes.post('/clientes', Cliente.insertClient);
 routes.put('/clientes', Cliente.updateClient);
 routes.delete('/clientes/:CPF', Cliente.deleteClient);
 
+routes.get('/animais', Animal.getAllAnimals);
+routes.get('/animais/:codAnimal', Animal.getAnimal);
+routes.post('/animais', Animal.insertAnimal);
+routes.put('/animais', Animal.updateAnimal);
+routes.delete('/animais/:codAnimal', Animal.deleteAnimal);
 
 routes.get('/tosador', Tosador.getAllTosador);
 routes.delete('/tosador/:CPF', Tosador.deleteTosador);

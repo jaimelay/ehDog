@@ -50,11 +50,11 @@ export default function Cliente() {
     const handleShowModalUpdate = () => setShowModalUpdate(true);
 
     useEffect(() => {
-        async function loadcustomers() {
+        async function loadCustomers() {
             const response = await api.get('/clientes');
             setCustomers(response.data);
         }
-        loadcustomers();
+        loadCustomers();
     }, []);
 
     async function deleteCliente(CPF){

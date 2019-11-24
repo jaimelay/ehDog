@@ -18,7 +18,6 @@ function execSQLQuery(sqlQuery, res){
         } else {
             res.json(results);
         }
-        console.log('executou!');
     });
 }
 

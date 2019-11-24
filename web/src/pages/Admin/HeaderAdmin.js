@@ -18,7 +18,9 @@ export default function HeaderAdmin() {
                     <Nav className="mr-auto">
                         <DropdownContainer>
                             <Dropdown as={ButtonGroup}>
-                                <Link to="/admin/produto"><Button variant="danger">Produto</Button></Link>
+                                <Link to="/admin/produto">
+                                    <Button variant="danger">Produto</Button>
+                                </Link>
                                 <Dropdown.Toggle split variant="danger" id="dropdown-split-basic" />
                                 <Dropdown.Menu>
                                     <Dropdown.Item href="#/action-1">Procurar produtos</Dropdown.Item>
@@ -28,24 +30,22 @@ export default function HeaderAdmin() {
                         <DropdownContainer>
                             <Dropdown as={ButtonGroup}>
                                 <Link to= "/admin/cliente">
-                                <Button variant="danger">Cliente</Button>
+                                    <Button variant="danger">Cliente</Button>
                                 </Link>
                                 <Dropdown.Toggle split variant="danger" id="dropdown-split-basic" />
                                 <Dropdown.Menu>
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1">Procurar clientes</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </DropdownContainer>
                         <DropdownContainer>                            
                             <Dropdown as={ButtonGroup}>
-                                <Button variant="danger">Animal</Button>
+                                <Link to="/admin/animal">
+                                    <Button variant="danger">Animal</Button>
+                                </Link>
                                 <Dropdown.Toggle split variant="danger" id="dropdown-split-basic" />
                                 <Dropdown.Menu>
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1">Pesquisas</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </DropdownContainer>
@@ -54,9 +54,7 @@ export default function HeaderAdmin() {
                                 <Button variant="danger">Consultas</Button>
                                 <Dropdown.Toggle split variant="danger" id="dropdown-split-basic" />
                                 <Dropdown.Menu>
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1">Pesquisas</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </DropdownContainer>
@@ -65,9 +63,7 @@ export default function HeaderAdmin() {
                                 <Button variant="danger">Tosador</Button>
                                 <Dropdown.Toggle split variant="danger" id="dropdown-split-basic" />
                                 <Dropdown.Menu>
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1">Pesquisas</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </DropdownContainer>
@@ -76,9 +72,7 @@ export default function HeaderAdmin() {
                                 <Button variant="danger">Veterinário</Button>
                                 <Dropdown.Toggle split variant="danger" id="dropdown-split-basic" />
                                 <Dropdown.Menu>
-                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                                    <Dropdown.Item href="#/action-1">Pesquisas</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </DropdownContainer>
