@@ -122,9 +122,9 @@ export default function Animal() {
                         if (!values.raca) { errors.raca = 'É necessário digitar uma raça.'; }
                        
                         if (!values.porte) { errors.porte = 'É necessário digitar um porte.'; }
-                        
-                        if (!values.fk_Cliente_CPF) { errors.fk_Cliente_CPF = 'É necessário escolher o CPF do dono.'; }
 
+                        if (!values.fk_Cliente_CPF) { errors.fk_Cliente_CPF = 'É necessário escolher o CPF do dono.'; }
+                    
                         return errors;
                     }}
                     onSubmit={(values, { setErrors, setSubmitting }) => {
@@ -194,7 +194,7 @@ export default function Animal() {
                                                                                     if (!values.raca) { errors.raca = 'É necessário digitar uma raça.'; }
                                                                                    
                                                                                     if (!values.porte) { errors.porte = 'É necessário digitar um porte.'; }
-                                                                                    
+                                                           
                                                                                     if (!values.fk_Cliente_CPF) { errors.fk_Cliente_CPF = 'É necessário escolher o CPF do dono.'; }
 
                                                                                     return errors;
@@ -307,25 +307,33 @@ export default function Animal() {
                                                 
                                                                                         <Form.Group controlId="validationFormik07">
                                                                                             <Form.Label>CPF do Dono*</Form.Label>
-                                                                                            { customers.length > 0 ? (
-                                                                                                <Form.Control
-                                                                                                    as="select"
-                                                                                                    name="fk_Cliente_CPF"
-                                                                                                    value={formEdit.values.fk_Cliente_CPF}
-                                                                                                    onChange={formEdit.handleChange}
-                                                                                                    isInvalid={!!formEdit.errors.fk_Cliente_CPF}
-                                                                                                >
+                                                                                            <Form.Control
+                                                                                                as="select"
+                                                                                                name="fk_Cliente_CPF"
+                                                                                                value={formEdit.values.fk_Cliente_CPF}
+                                                                                                onChange={formEdit.handleChange}
+                                                                                                isInvalid={!!formEdit.errors.fk_Cliente_CPF}
+                                                                                            >
+                                                                                                { customers.length > 0 ? (
+                                                                                                    <>
+                                                                                                    <option value="" label="Selecione o CPF do Dono" />
                                                                                                     { customers.map(customer => (
-                                                                                                        <option key={customer.CPF}>{customer.CPF}</option>
+                                                                                                        <option
+                                                                                                            value={customer.CPF}
+                                                                                                            label={customer.CPF}
+                                                                                                            key={customer.CPF}
+                                                                                                        />
                                                                                                     ))}
-                                                                                                </Form.Control>
-                                                                                            ) : (
-                                                                                                <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
-                                                                                            )}
+                                                                                                    </>
+                                                                                                ) : (
+                                                                                                    <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
+                                                                                                )}
+                                                                                            </Form.Control>
                                                                                             <Form.Control.Feedback type="invalid">
                                                                                                 {formEdit.errors.fk_Cliente_CPF}
                                                                                             </Form.Control.Feedback>
                                                                                         </Form.Group>
+
                                                                                         <ButtonContainer>
                                                                                             <Buttons>
                                                                                                 <Button type="submit" onClick={() => {formEdit.submitForm();}}>Salvar</Button>
@@ -475,21 +483,28 @@ export default function Animal() {
                                             </td>
                                             <td>
                                                 <Form.Group controlId="validationFormik07">
-                                                    { customers.length > 0 ? (
-                                                        <Form.Control
-                                                            as="select"
-                                                            name="fk_Cliente_CPF"
-                                                            value={formAdd.values.fk_Cliente_CPF}
-                                                            onChange={formAdd.handleChange}
-                                                            isInvalid={!!formAdd.errors.fk_Cliente_CPF}
-                                                        >
+                                                    <Form.Control
+                                                        as="select"
+                                                        name="fk_Cliente_CPF"
+                                                        value={formAdd.values.fk_Cliente_CPF}
+                                                        onChange={formAdd.handleChange}
+                                                        isInvalid={!!formAdd.errors.fk_Cliente_CPF}
+                                                    >
+                                                        { customers.length > 0 ? (
+                                                            <>
+                                                            <option value="" label="Selecione o CPF do Dono" />
                                                             { customers.map(customer => (
-                                                                <option key={customer.CPF}>{customer.CPF}</option>
+                                                                <option
+                                                                    value={customer.CPF}
+                                                                    label={customer.CPF}
+                                                                    key={customer.CPF}
+                                                                />
                                                             ))}
-                                                        </Form.Control>
-                                                    ) : (
-                                                        <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
-                                                    )}
+                                                            </>
+                                                        ) : (
+                                                            <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
+                                                        )}
+                                                    </Form.Control>
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.fk_Cliente_CPF}
                                                     </Form.Control.Feedback>

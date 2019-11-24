@@ -4,6 +4,7 @@ const Produto = require('./controllers/Produto');
 const Cliente = require('./controllers/Cliente');
 const Animal = require('./controllers/Animal');
 const Tosador = require('./controllers/Tosador');
+const Veterinario = require('./controllers/Veterinario');
 
 const routes = express.Router();
 
@@ -31,5 +32,11 @@ routes.post('/tosadores', Tosador.insertTosador);
 routes.put('/tosadores', Tosador.updateTosador);
 routes.delete('/tosadores/:CPF', Tosador.deleteTosador);
 
+routes.get('/veterinarios', Veterinario.getAllVeterinarios);
+routes.get('/veterinarios/:CRMV', Veterinario.getVeterinarioByCRMV);
+routes.get('/veterinario/:CPF', Veterinario.getVeterinarioByCPF);
+routes.post('/veterinarios', Veterinario.insertVeterinario);
+routes.put('/veterinarios', Veterinario.updateVeterinario);
+routes.delete('/veterinarios/:CRMV', Veterinario.deleteVeterinario);
 
 module.exports = routes;
