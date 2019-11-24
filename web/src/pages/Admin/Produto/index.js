@@ -95,7 +95,7 @@ export default function Produto() {
         <ProductContainer>
             <HeaderAdmin />
             <Container>
-                <h1>Listagem de Produtos</h1>
+                <h1>Produtos</h1>
                 <Formik
                     initialValues={{ cod_produto: '', nome_produto: '', marca: '', valor_unitario: '', qtd_estoque: '' }}
                     validate={values => {

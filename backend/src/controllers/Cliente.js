@@ -12,7 +12,7 @@ module.exports = {
 
     insertClient(req, res){
         const { CPF, nome_cliente, end_cliente, email_cliente, tel_cliente } = req.body;
-        execSQLQuery(`INSERT INTO Cliente(CPF, nome_cliente, end_cliente, email_cliente, tel_cliente) VALUES (${CPF}, '${nome_cliente}', '${end_cliente}', '${email_cliente}', '${tel_cliente}')`, res);
+        execSQLQuery(`INSERT INTO Cliente(CPF, nome_cliente, end_cliente, email_cliente, tel_cliente) VALUES (${CPF}, '${nome_cliente}', '${end_cliente}', '${email_cliente}', ${tel_cliente})`, res);
     },
 
     getClient(req, res){
@@ -21,7 +21,7 @@ module.exports = {
     },
 
     updateClient(req, res){
-        const { CPF, nome_cliente, end_cliente, email_cliente, tel_cliente } = req.body;
-        execSQLQuery(`UPDATE Cliente SET CPF = ${CPF}, nome_cliente = '${nome_cliente}', end_cliente = '${end_cliente}', email_cliente = '${email_cliente}', tel_cliente = '${tel_cliente}' WHERE CPF = ${CPF}`, res);
+        const { oldCPF, CPF, nome_cliente, end_cliente, email_cliente, tel_cliente } = req.body;
+        execSQLQuery(`UPDATE Cliente SET CPF = ${CPF}, nome_cliente = '${nome_cliente}', end_cliente = '${end_cliente}', email_cliente = '${email_cliente}', tel_cliente = ${tel_cliente} WHERE CPF = ${oldCPF}`, res);
     }
 }

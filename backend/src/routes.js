@@ -25,8 +25,11 @@ routes.post('/animais', Animal.insertAnimal);
 routes.put('/animais', Animal.updateAnimal);
 routes.delete('/animais/:codAnimal', Animal.deleteAnimal);
 
-routes.get('/tosador', Tosador.getAllTosador);
-routes.delete('/tosador/:CPF', Tosador.deleteTosador);
+routes.get('/tosadores', Tosador.getAllTosadores);
+routes.get('/tosadores/:CPF', Tosador.getTosador);
+routes.post('/tosadores', Tosador.insertTosador);
+routes.put('/tosadores', Tosador.updateTosador);
+routes.delete('/tosadores/:CPF', Tosador.deleteTosador);
 
 
 module.exports = routes;

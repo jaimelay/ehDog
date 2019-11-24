@@ -106,7 +106,7 @@ export default function Animal() {
         <AnimalContainer>
             <HeaderAdmin />
             <Container>
-                <h1>Listagem de Animais</h1>
+                <h1>Animais</h1>
                 <Formik
                     initialValues={{ cod_animal: '', nome_animal: '', tipo: '', alergia: '', raca: '', porte: '', fk_Cliente_CPF: '' }}
                     validate={values => {
@@ -320,7 +320,7 @@ export default function Animal() {
                                                                                                     ))}
                                                                                                 </Form.Control>
                                                                                             ) : (
-                                                                                                <div>Cadastre algum cliente antes</div>
+                                                                                                <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
                                                                                             )}
                                                                                             <Form.Control.Feedback type="invalid">
                                                                                                 {formEdit.errors.fk_Cliente_CPF}
@@ -488,7 +488,7 @@ export default function Animal() {
                                                             ))}
                                                         </Form.Control>
                                                     ) : (
-                                                        <div>Cadastre algum cliente antes</div>
+                                                        <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
                                                     )}
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.fk_Cliente_CPF}

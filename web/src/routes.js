@@ -6,6 +6,7 @@ import Admin from './pages/Admin';
 import Produto from './pages/Admin/Produto';
 import Cliente from './pages/Admin/Cliente';
 import Animal from './pages/Admin/Animal';
+import Tosador from './pages/Admin/Tosador';
 
 export default function Routes() {
     return (
@@ -22,7 +23,7 @@ export default function Routes() {
                           <Route path={`${url}/produto`} component={Produto} />
                           <Route path={`${url}/cliente`} component={Cliente} />
                           <Route path={`${url}/animal`} component={Animal} />
-
+                          <Route path={`${url}/tosador`} component={Tosador} />
                         </>
                       )}
                 />            
