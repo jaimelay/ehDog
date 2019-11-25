@@ -9,6 +9,8 @@ import Animal from './pages/Admin/Animal';
 import Tosador from './pages/Admin/Tosador';
 import Veterinario from './pages/Admin/Veterinario';
 import Consulta from './pages/Admin/Consulta';
+import Servico from './pages/Admin/Servico';
+import Compra from './pages/Admin/Compra';
 
 export default function Routes() {
     return (
@@ -28,6 +30,8 @@ export default function Routes() {
                           <Route path={`${url}/tosador`} component={Tosador} />
                           <Route path={`${url}/veterinario`} component={Veterinario} />
                           <Route path={`${url}/consulta`} component={Consulta} />
+                          <Route path={`${url}/servico`} component={Servico} />
+                          <Route path={`${url}/compra`} component={Compra} />
                         </>
                       )}
                 />            

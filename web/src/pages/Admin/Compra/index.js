@@ -32,7 +32,7 @@ const Buttons = styled.div`
     margin: 0 5px;
 `;
 
-export default function Consulta() {
+export default function Compra() {
     const [animals, setAnimals] = useState([]);
     const [consultas, setConsultas] = useState([]);
     const [veterinarios, setVeterinarios] = useState([]);
@@ -115,7 +115,7 @@ export default function Consulta() {
         <ConsultaContainer>
             <HeaderAdmin />
             <Container>
-                <h1>Consultas</h1>
+                <h1>Compra</h1>
                 <Formik
                     initialValues={{ cod_consulta: '', data_hora_consulta: '', diagnostico: '', valor: '', fk_Veterinario_CRMV: '', fk_Animal_cod_animal: '' }}
                     validate={values => {

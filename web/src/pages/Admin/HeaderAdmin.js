@@ -82,6 +82,28 @@ export default function HeaderAdmin() {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </DropdownContainer>
+                        <DropdownContainer>                            
+                            <Dropdown as={ButtonGroup}>
+                                <Link to="/admin/servico">
+                                    <Button variant="danger">Serviços</Button>
+                                </Link>
+                                <Dropdown.Toggle split variant="danger" id="dropdown-split-basic" />
+                                <Dropdown.Menu>
+                                    <Dropdown.Item href="#/action-1">Pesquisas</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </DropdownContainer>
+                        <DropdownContainer>                            
+                            <Dropdown as={ButtonGroup}>
+                                <Link to="/admin/compra">
+                                    <Button variant="danger">Compras</Button>
+                                </Link>
+                                <Dropdown.Toggle split variant="danger" id="dropdown-split-basic" />
+                                <Dropdown.Menu>
+                                    <Dropdown.Item href="#/action-1">Pesquisas</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </DropdownContainer>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
