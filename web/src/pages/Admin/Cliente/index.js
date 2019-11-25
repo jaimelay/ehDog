@@ -117,7 +117,6 @@ export default function Cliente() {
                     }}
                     onSubmit={(values, { setErrors, setSubmitting }) => {
                         setTimeout(() => {
-                            console.log(values.tel_cliente)
                             async function getCliente(CPF){
                                 const response = await api.get(`/clientes/${CPF}`);
                                 if (response.data.length === 0) {

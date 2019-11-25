@@ -51,7 +51,9 @@ export default function HeaderAdmin() {
                         </DropdownContainer>
                         <DropdownContainer>                            
                             <Dropdown as={ButtonGroup}>
-                                <Button variant="danger">Consultas</Button>
+                                <Link to="/admin/consulta">
+                                    <Button variant="danger">Consultas</Button>
+                                </Link>
                                 <Dropdown.Toggle split variant="danger" id="dropdown-split-basic" />
                                 <Dropdown.Menu>
                                     <Dropdown.Item href="#/action-1">Pesquisas</Dropdown.Item>

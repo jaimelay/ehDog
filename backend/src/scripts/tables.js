@@ -97,8 +97,9 @@ module.exports = {
     
     createTableConsulta() {
         const tableConsulta = `CREATE TABLE Consulta (
+            cod_consulta        NUMERIC(5)  NOT NULL    PRIMARY KEY,
             data_hora_consulta		DATETIME		NOT NULL,
-            diagnostico			VARCHAR(80)	NOT NULL,
+            diagnostico			VARCHAR(80),
             valor				FLOAT(9,2)		NOT NULL,
             fk_Veterinario_CRMV	NUMERIC(5)		NOT NULL,
             fk_Animal_cod_animal	NUMERIC(5)		NOT NULL
