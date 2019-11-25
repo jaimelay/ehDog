@@ -40,9 +40,9 @@ export default function Home() {
                         <Card.Title>Serviço de Banho</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">R$ 50,00</Card.Subtitle>
                         <Card.Text>
-                        Some quick example text to build on the card title and make up the bulk of
-                        the card's content.
+                            O melhor serviço de banho é aqui na ehDog? venha logo deixar seu cachorro cheiroso.
                         </Card.Text>
+                        <Button variant="primary">Agendar Banho</Button>
                     </Card.Body>
                 </Card>
                 <Card style={{ width: '18rem' }}>
@@ -51,9 +51,9 @@ export default function Home() {
                         <Card.Title>Serviço de Tosa</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">R$ 50,00</Card.Subtitle>
                         <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
+                            O melhor serviço de tosa é aqui na ehDog? venha logo deixar seu cachorro com aquele penteado daora.
                         </Card.Text>
+                        <Button variant="primary">Agendar Tosa</Button>
                     </Card.Body>
                 </Card>
                 <Card style={{ width: '18rem' }}>
@@ -62,8 +62,7 @@ export default function Home() {
                         <Card.Title>Consulta Médica</Card.Title>
                         <Card.Subtitle className="mb-2 text-muted">R$ 50,00</Card.Subtitle>
                         <Card.Text>
-                            Some quick example text to build on the card title and make up the bulk of
-                            the card's content.
+                            Aqui na ehDog? contamos com os melhores veterinários, venha logo deixar seu pet aqui.
                         </Card.Text>
                         <Button variant="primary">Agendar Consulta</Button>
                     </Card.Body>
