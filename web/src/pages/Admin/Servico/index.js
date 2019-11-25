@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import api from '../../../services/api'
 import HeaderAdmin from '../HeaderAdmin';
 
-const ConsultaContainer = styled.div`
+const ServicoContainer = styled.div`
     display: flex
     flex-direction: column;
 
@@ -33,22 +33,22 @@ const Buttons = styled.div`
 `;
 
 export default function Servico() {
+    const [servicos, setServicos] = useState([]);
+    const [servicosID, setServicosID] = useState({});
     const [animals, setAnimals] = useState([]);
-    const [consultas, setConsultas] = useState([]);
-    const [veterinarios, setVeterinarios] = useState([]);
+    const [tosadores, setTosadores] = useState([]);
     const [showModalDelete, setShowModalDelete] = useState(false);
     const [showModalUpdate, setShowModalUpdate] = useState(false);
-    const [consultaID, setConsultaID] = useState({});
 
     const handleCloseModalDelete = () => {
         setShowModalDelete(false);
-        setConsultaID({});
+        setServicosID({});
     }
     const handleShowModalDelete = () => setShowModalDelete(true);
 
     const handleCloseModalUpdate = () => {
         setShowModalUpdate(false);
-        setConsultaID({});
+        setServicosID({});
     }
     const handleShowModalUpdate = () => setShowModalUpdate(true);
 
@@ -61,93 +61,94 @@ export default function Servico() {
     }, []);
 
     useEffect(() => {
-        async function loadVeterinarios() {
-            const response = await api.get('/veterinarios');
-            setVeterinarios(response.data);
+        async function loadTosadores() {
+            const response = await api.get('/tosadores');
+            setTosadores(response.data);
         }
-        loadVeterinarios();
+        loadTosadores();
     }, []);
 
     useEffect(() => {
-        async function loadConsultas() {
-            const response = await api.get('/consultas');
-            setConsultas(response.data);
+        async function loadServicos() {
+            const response = await api.get('/servicos');
+            setServicos(response.data);
         }
-        loadConsultas();
+        loadServicos();
     }, []);
 
-    async function deleteConsulta(cod_consulta){
-        await api.delete(`/consultas/${cod_consulta}`);
+    async function deleteServico(cod_servico){
+        await api.delete(`/servicos/${cod_servico}`);
         window.location.reload(false);
     }
 
-    async function addConsulta(values){
-        const { cod_consulta, data_hora_consulta, diagnostico, valor, fk_Veterinario_CRMV, fk_Animal_cod_animal } = values;
-        await api.post(`/consultas`, {
-            cod_consulta,
-            data_hora_consulta,
-            diagnostico,
-            valor,
-            fk_Veterinario_CRMV,
-            fk_Animal_cod_animal
+    async function addServico(values){
+        const { cod_servico, preco_banho, preco_tosa, servico_TIPO, fk_Animal_cod_animal, fk_Tosador_CPF } = values;
+        await api.post(`/servicos`, {
+            cod_servico,
+            preco_banho,
+            preco_tosa,
+            servico_TIPO,
+            fk_Animal_cod_animal,
+            fk_Tosador_CPF
         })
         window.location.reload(false);
     }
 
-    async function updateConsulta(oldCodConsulta, values){
-        const { cod_consulta, data_hora_consulta, diagnostico, valor, fk_Veterinario_CRMV, fk_Animal_cod_animal } = values;
-        await api.put(`/animais`, {
-            oldCodConsulta,
-            cod_consulta,
-            data_hora_consulta,
-            diagnostico,
-            valor,
-            fk_Veterinario_CRMV,
-            fk_Animal_cod_animal
+    async function updateServico(oldCodServico, values){
+        const { cod_servico, preco_banho, preco_tosa, servico_TIPO, fk_Animal_cod_animal, fk_Tosador_CPF } = values;
+        await api.put(`/servicos`, {
+            oldCodServico,
+            cod_servico,
+            preco_banho,
+            preco_tosa,
+            servico_TIPO,
+            fk_Animal_cod_animal,
+            fk_Tosador_CPF
         })
-        setConsultaID({});
+        setServicosID({});
         handleCloseModalUpdate();
         window.location.reload(false);
     }
 
     return (
         <>
-        <ConsultaContainer>
+        <ServicoContainer>
             <HeaderAdmin />
             <Container>
-                <h1>Serviço</h1>
+                <h1>Serviços</h1>
                 <Formik
-                    initialValues={{ cod_consulta: '', data_hora_consulta: '', diagnostico: '', valor: '', fk_Veterinario_CRMV: '', fk_Animal_cod_animal: '' }}
+                    initialValues={{ cod_servico: '', preco_banho: '', preco_tosa: '', servico_TIPO: '', fk_Animal_cod_animal: '', fk_Tosador_CPF: '' }}
                     validate={values => {
                         let errors = {};
 
-                        if (!values.cod_consulta) { errors.cod_consulta = 'É necessário digitar um código.'; }
-                        else if(!/^[0-9]{1,5}$/i.test(values.cod_consulta)) { errors.cod_consulta = 'O código tem que ser númerico e no máximo 5 digitos.'; }
+                        if (!values.cod_servico) { errors.cod_servico = 'É necessário digitar um código.'; }
+                        else if(!/^[0-9]{1,5}$/i.test(values.cod_servico)) { errors.cod_servico = 'O código tem que ser númerico e no máximo 5 digitos.'; }
+                    
+                        if (!values.preco_banho) { errors.preco_banho = 'É necessário digitar um preço para o banho.'; }
+                        else if(!/^[0-9]+\.[0-9]{2,2}$/i.test(values.preco_banho)) { errors.preco_banho = 'O preço tem que ser númerico, e com valor decimal. Ex: 10.00'; }
                         
-                        if (!values.data_hora_consulta) { errors.data_hora_consulta = 'É necessário digitar uma data e hora.'; }
+                        if (!values.preco_tosa) { errors.preco_tosa = 'É necessário digitar um preço para a tosa.'; }
+                        else if(!/^[0-9]+\.[0-9]{2,2}$/i.test(values.preco_tosa)) { errors.preco_tosa = 'O preço tem que ser númerico, e com valor decimal. Ex: 10.00'; }
 
-                        // if (!values.diagnostico) { errors.diagnostico = 'É necessário digitar um diagnostico.'; }
-                        
-                        if (!values.valor) { errors.valor = 'É necessário digitar um valor.'; }
-                        else if(!/^[0-9]+\.[0-9]{2,2}$/i.test(values.valor)) { errors.valor = 'O valor tem que ser númerico, e com valor decimal. Ex: 10.00'; }
-
-                        if (!values.fk_Veterinario_CRMV) { errors.fk_Veterinario_CRMV = 'É necessário selecionar um CRMV.'; }
+                        if (!values.servico_TIPO) { errors.servico_TIPO = 'É necessário escolher um tipo.'; }
 
                         if (!values.fk_Animal_cod_animal) { errors.fk_Animal_cod_animal = 'É necessário selecionar um Código de Animal.'; }
+
+                        if (!values.fk_Tosador_CPF) { errors.fk_Tosador_CPF = 'É necessário selecionar um CPF para o Tosador.'; }
                     
                         return errors;
                     }}
                     onSubmit={(values, { setErrors, setSubmitting }) => {
                         setTimeout(() => {
-                            async function getConsulta(cod_consulta){
-                                const response = await api.get(`/consultas/${cod_consulta}`);
+                            async function getServico(cod_servico){
+                                const response = await api.get(`/servicos/${cod_servico}`);
                                 if (response.data.length === 0) {
-                                    addConsulta(values);
+                                    addServico(values);
                                 } else {
-                                    setErrors({ cod_consulta: 'Este código ja está sendo utilizado.' });
+                                    setErrors({ cod_servico: 'Este código ja está sendo utilizado.' });
                                 }
                             }
-                            getConsulta(values.cod_consulta);
+                            getServico(values.cod_servico);
                         }, 400);
                     }}
                 >
@@ -157,29 +158,29 @@ export default function Servico() {
                                 <thead>
                                     <tr>
                                         <th>Código</th>
-                                        <th>Data e Hora</th>
-                                        <th>Diagnóstico</th>
-                                        <th>Valor</th>
-                                        <th>Veterinário</th>
-                                        <th>Animal</th>
+                                        <th>Preço Banho (R$)</th>
+                                        <th>Preço Tosa (R$)</th>
+                                        <th>Tipo de Serviço</th>
+                                        <th>Animal (Código)</th>
+                                        <th>Tosador (CPF)</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        { consultas.length > 0 ? (
+                                        { servicos.length > 0 ? (
                                             <>
-                                                { consultas.map(consulta => (
-                                                        <tr key={consulta.cod_consulta}>                    
-                                                            <td>{consulta.cod_consulta}</td>
-                                                            <td>{consulta.data_hora_consulta}</td>
-                                                            <td>{consulta.diagnostico}</td>
-                                                            <td>R$ {consulta.valor}</td>
-                                                            <td>{consulta.fk_Veterinario_CRMV}</td>
-                                                            <td>{consulta.fk_Animal_cod_animal}</td>
+                                                { servicos.map(servico => (
+                                                        <tr key={servico.cod_servico}>                    
+                                                            <td>{servico.cod_servico}</td>
+                                                            <td>R${servico.preco_banho}</td>
+                                                            <td>R$ {servico.preco_tosa}</td>
+                                                            <td>{servico.servico_TIPO}</td>
+                                                            <td>{servico.fk_Animal_cod_animal}</td>
+                                                            <td>{servico.fk_Tosador_CPF}</td>
                                                             <td>
                                                                 <ButtonContainer>
                                                                     <Buttons>
-                                                                        <Button variant="warning" onClick={() => {setConsultaID(consulta); handleShowModalUpdate();}}>Editar</Button>
+                                                                        <Button variant="warning" onClick={() => {setServicosID(servico); handleShowModalUpdate();}}>Editar</Button>
                                                                         <Modal show={showModalUpdate} onHide={handleCloseModalUpdate} animation={true}>
                                                                             <Modal.Header closeButton>
                                                                                 <Modal.Title>Altere com o que você deseja</Modal.Title>
@@ -187,40 +188,41 @@ export default function Servico() {
                                                                             <Modal.Body>
                                                                             <>
                                                                             <Formik
-                                                                                initialValues={{ cod_consulta: `${consultaID.cod_consulta}`, data_hora_consulta: `${consultaID.data_hora_consulta}`, diagnostico: `${consultaID.diagnostico}`, valor: `${consultaID.valor}`, fk_Veterinario_CRMV: `${consultaID.fk_Veterinario_CRMV}`, fk_Animal_cod_animal: `${consultaID.fk_Animal_cod_animal}` }}
+                                                                                initialValues={{ cod_servico: `${servicosID.cod_servico}`, preco_banho: `${servicosID.preco_banho}`, preco_tosa: `${servicosID.preco_tosa}`, servico_TIPO: `${servicosID.servico_TIPO}`, fk_Animal_cod_animal: `${servicosID.fk_Animal_cod_animal}`, fk_Tosador_CPF: `${servicosID.fk_Tosador_CPF}` }}
                                                                                 validate={values => {
                                                                                     let errors = {};
 
-                                                                                    if (!values.cod_consulta) { errors.cod_consulta = 'É necessário digitar um código.'; }
-                                                                                    else if(!/^[0-9]{1,5}$/i.test(values.cod_consulta)) { errors.cod_consulta = 'O código tem que ser númerico e no máximo 5 digitos.'; }
+                                                                                    if (!values.cod_servico) { errors.cod_servico = 'É necessário digitar um código.'; }
+                                                                                    else if(!/^[0-9]{1,5}$/i.test(values.cod_servico)) { errors.cod_servico = 'O código tem que ser númerico e no máximo 5 digitos.'; }
+                                                                                
+                                                                                    if (!values.preco_banho) { errors.preco_banho = 'É necessário digitar um preço para o banho.'; }
+                                                                                    else if(!/^[0-9]+\.[0-9]{2,2}$/i.test(values.preco_banho)) { errors.preco_banho = 'O preço tem que ser númerico, e com valor decimal. Ex: 10.00'; }
                                                                                     
-                                                                                    if (!values.data_hora_consulta) { errors.data_hora_consulta = 'É necessário digitar uma data e hora.'; }
+                                                                                    if (!values.preco_tosa) { errors.preco_tosa = 'É necessário digitar um preço para a tosa.'; }
+                                                                                    else if(!/^[0-9]+\.[0-9]{2,2}$/i.test(values.preco_tosa)) { errors.preco_tosa = 'O preço tem que ser númerico, e com valor decimal. Ex: 10.00'; }
                                                             
-                                                                                    // if (!values.diagnostico) { errors.diagnostico = 'É necessário digitar um diagnóstico.'; }
-                                                                                    
-                                                                                    if (!values.valor) { errors.valor = 'É necessário digitar um valor.'; }
-                                                                                    else if(!/^[0-9]+\.[0-9]{2,2}$/i.test(values.valor)) { errors.valor = 'O valor tem que ser númerico, e com valor decimal. Ex: 10.00'; }
-
-                                                                                    if (!values.fk_Veterinario_CRMV) { errors.fk_Veterinario_CRMV = 'É necessário selecionar um CRMV.'; }
+                                                                                    if (!values.servico_TIPO) { errors.servico_TIPO = 'É necessário escolher um tipo.'; }
                                                             
                                                                                     if (!values.fk_Animal_cod_animal) { errors.fk_Animal_cod_animal = 'É necessário selecionar um Código de Animal.'; }
+                                                            
+                                                                                    if (!values.fk_Tosador_CPF) { errors.fk_Tosador_CPF = 'É necessário selecionar um CPF para o Tosador.'; }
                                                                                 
                                                                                     return errors;
                                                                                 }}
                                                                                 onSubmit={(values, { setErrors, setSubmitting }) => {
                                                                                     setTimeout(() => {
-                                                                                        async function getConsulta(cod_consulta){
-                                                                                            const response = await api.get(`/consultas/${cod_consulta}`);
+                                                                                        async function getServico(cod_servico){
+                                                                                            const response = await api.get(`/servicos/${cod_servico}`);
                                                                                             if (response.data.length === 0) {
-                                                                                                updateConsulta(consultaID.cod_consulta, values);
+                                                                                                updateServico(servicosID.cod_servico, values);
                                                                                             } else {
-                                                                                                setErrors({ cod_consulta: 'Este código ja está sendo utilizado.' });
+                                                                                                setErrors({ cod_servico: 'Este código ja está sendo utilizado.' });
                                                                                             }
                                                                                         }
-                                                                                        if (consultaID.cod_consulta.toString() !== values.cod_consulta) {
-                                                                                            getConsulta(values.cod_consulta);
+                                                                                        if (servicosID.cod_servico.toString() !== values.cod_servico) {
+                                                                                            getServico(values.cod_servico);
                                                                                         } else { 
-                                                                                            updateConsulta(consultaID.cod_consulta, values);
+                                                                                            updateServico(servicosID.cod_servico, values);
                                                                                         } 
                                                                                     }, 400);
                                                                                 }}
@@ -228,116 +230,116 @@ export default function Servico() {
                                                                                 {(formEdit) => (
                                                                                     <Form noValidate onSubmit={e => {e.stopPropagation(); formEdit.handleSubmit(e);}}>
                                                                                         <Form.Group controlId="validationFormik01">
-                                                                                            <Form.Label>Código da Consulta*</Form.Label>
+                                                                                            <Form.Label>Código do Serviço*</Form.Label>
                                                                                             <Form.Control
                                                                                                 type="text"
-                                                                                                name="cod_consulta"
-                                                                                                value={formEdit.values.cod_consulta}
+                                                                                                name="cod_servico"
+                                                                                                value={formEdit.values.cod_servico}
                                                                                                 onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.cod_consulta}
+                                                                                                isInvalid={!!formEdit.errors.cod_servico}
                                                                                             />
                                                                                                 <Form.Control.Feedback type="invalid">
-                                                                                                    {formEdit.errors.cod_consulta}
+                                                                                                    {formEdit.errors.cod_servico}
                                                                                                 </Form.Control.Feedback>
                                                                                         </Form.Group>
 
                                                                                         <Form.Group controlId="validationFormik02">
-                                                                                            <Form.Label>Data e Hora*</Form.Label>
+                                                                                            <Form.Label>Preço Banho (R$)*</Form.Label>
                                                                                             <Form.Control
                                                                                                 type="text"
-                                                                                                name="data_hora_consulta"
-                                                                                                value={formEdit.values.data_hora_consulta}
+                                                                                                name="preco_banho"
+                                                                                                value={formEdit.values.preco_banho}
                                                                                                 onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.data_hora_consulta}
+                                                                                                isInvalid={!!formEdit.errors.preco_banho}
                                                                                             />
                                                                                             <Form.Control.Feedback type="invalid">
-                                                                                                {formEdit.errors.data_hora_consulta}
+                                                                                                {formEdit.errors.preco_banho}
                                                                                             </Form.Control.Feedback>
                                                                                         </Form.Group>
 
                                                                                         <Form.Group controlId="validationFormik03">
-                                                                                            <Form.Label>Diagnóstico*</Form.Label>
+                                                                                            <Form.Label>Preço Tosa (R$)*</Form.Label>
                                                                                             <Form.Control
                                                                                                 type="text"
-                                                                                                name="diagnostico"
-                                                                                                value={formEdit.values.diagnostico}
+                                                                                                name="preco_tosa"
+                                                                                                value={formEdit.values.preco_tosa}
                                                                                                 onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.diagnostico}
+                                                                                                isInvalid={!!formEdit.errors.preco_tosa}
                                                                                             />
                                                                                             <Form.Control.Feedback type="invalid">
-                                                                                                {formEdit.errors.diagnostico}
+                                                                                                {formEdit.errors.preco_tosa}
                                                                                             </Form.Control.Feedback>
                                                                                         </Form.Group>
 
                                                                                         <Form.Group controlId="validationFormik04">
-                                                                                            <Form.Label>Valor*</Form.Label>
+                                                                                            <Form.Label>Tipo de Serviço*</Form.Label>
                                                                                             <Form.Control
                                                                                                 type="text"
-                                                                                                name="valor"
-                                                                                                value={formEdit.values.valor}
+                                                                                                name="servico_TIPO"
+                                                                                                value={formEdit.values.servico_TIPO}
                                                                                                 onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.valor}
+                                                                                                isInvalid={!!formEdit.errors.servico_TIPO}
                                                                                             />
                                                                                             <Form.Control.Feedback type="invalid">
-                                                                                                {formEdit.errors.valor}
+                                                                                                {formEdit.errors.servico_TIPO}
                                                                                             </Form.Control.Feedback>
                                                                                         </Form.Group>
                                                 
-                                                                                        <Form.Group controlId="validationFormik06">
-                                                                                            <Form.Label>CRMV do Veterinário*</Form.Label>
-                                                                                            { veterinarios.length > 0 ? (
-                                                                                            <Form.Control
-                                                                                                as="select"
-                                                                                                name="fk_Veterinario_CRMV"
-                                                                                                value={formEdit.values.fk_Veterinario_CRMV}
-                                                                                                onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.fk_Veterinario_CRMV}
-                                                                                            >
-                                                                                                <>
-                                                                                                <option value="" label="Selecione o CRMV do Veterinário" />
-                                                                                                { veterinarios.map(veterinario => (
-                                                                                                    <option
-                                                                                                        value={veterinario.CRMV}
-                                                                                                        label={`${veterinario.CRMV} - ${veterinario.nome_veterinario}`}
-                                                                                                        key={veterinario.CRMV}
-                                                                                                    />
-                                                                                                ))}
-                                                                                                </>
-                                                                                            </Form.Control>
+                                                                                        <Form.Group controlId="validationFormik05">
+                                                                                            <Form.Label>Código do Animal*</Form.Label>
+                                                                                            { animals.length > 0 ? (
+                                                                                                <Form.Control
+                                                                                                    as="select"
+                                                                                                    name="fk_Animal_cod_animal"
+                                                                                                    value={formEdit.values.fk_Animal_cod_animal}
+                                                                                                    onChange={formEdit.handleChange}
+                                                                                                    isInvalid={!!formEdit.errors.fk_Animal_cod_animal}
+                                                                                                >
+                                                                                                    <>
+                                                                                                        <option value="" label="Selecione o Código do Animal" />
+                                                                                                        { animals.map(animal => (
+                                                                                                            <option
+                                                                                                                value={animal.cod_animal}
+                                                                                                                label ={`${animal.cod_animal} - ${animal.nome_animal}`}
+                                                                                                                key={animal.cod_animal}
+                                                                                                            />
+                                                                                                        ))}
+                                                                                                    </>
+                                                                                                </Form.Control>
                                                                                             ) : (
-                                                                                                <div style={{ color: "red" }}>Cadastre algum veterinário antes</div>
+                                                                                                <div style={{ color: "red" }}>Cadastre algum animal antes</div>
                                                                                             )}
                                                                                             <Form.Control.Feedback type="invalid">
-                                                                                                {formEdit.errors.fk_Veterinario_CRMV}
+                                                                                                {formEdit.errors.fk_Animal_cod_animal}
                                                                                             </Form.Control.Feedback>
                                                                                         </Form.Group>
 
-                                                                                        <Form.Group controlId="validationFormik07">
-                                                                                            <Form.Label>Código do Animal*</Form.Label>
-                                                                                            <Form.Control
-                                                                                                as="select"
-                                                                                                name="fk_Animal_cod_animal"
-                                                                                                value={formEdit.values.fk_Animal_cod_animal}
-                                                                                                onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.fk_Animal_cod_animal}
-                                                                                            >
-                                                                                                { animals.length > 0 ? (
+                                                                                        <Form.Group controlId="validationFormik06">
+                                                                                            <Form.Label>CPF do Tosador*</Form.Label>
+                                                                                            { tosadores.length > 0 ? (
+                                                                                                <Form.Control
+                                                                                                    as="select"
+                                                                                                    name="fk_Tosador_CPF"
+                                                                                                    value={formEdit.values.fk_Tosador_CPF}
+                                                                                                    onChange={formEdit.handleChange}
+                                                                                                    isInvalid={!!formEdit.errors.fk_Tosador_CPF}
+                                                                                                >
                                                                                                     <>
-                                                                                                    <option value="" label="Selecione o Código do Animal" />
-                                                                                                    { animals.map(animal => (
-                                                                                                        <option
-                                                                                                            value={animal.cod_animal}
-                                                                                                            label ={`${animal.cod_animal} - ${animal.nome_animal}`}
-                                                                                                            key={animal.cod_animal}
-                                                                                                        />
-                                                                                                    ))}
+                                                                                                        <option value="" label="Selecione o CPF do Tosador" />
+                                                                                                        { tosadores.map(tosador => (
+                                                                                                            <option
+                                                                                                                value={tosador.CRMV}
+                                                                                                                label={`${tosador.CRMV} - ${tosador.nome_tosador}`}
+                                                                                                                key={tosador.CRMV}
+                                                                                                            />
+                                                                                                        ))}
                                                                                                     </>
-                                                                                                ) : (
-                                                                                                    <div style={{ color: "red" }}>Cadastre algum animal antes</div>
-                                                                                                )}
-                                                                                            </Form.Control>
+                                                                                                </Form.Control>
+                                                                                            ) : (
+                                                                                                <div style={{ color: "red" }}>Cadastre algum tosador antes</div>
+                                                                                            )}
                                                                                             <Form.Control.Feedback type="invalid">
-                                                                                                {formEdit.errors.fk_Animal_cod_animal}
+                                                                                                {formEdit.errors.fk_Tosador_CPF}
                                                                                             </Form.Control.Feedback>
                                                                                         </Form.Group>
 
@@ -360,13 +362,13 @@ export default function Servico() {
                                                                         </Modal>
                                                                     </Buttons>
                                                                     <Buttons>
-                                                                        <Button variant="danger" onClick={() => { setConsultaID(consulta); handleShowModalDelete(); }}>Deletar</Button>
+                                                                        <Button variant="danger" onClick={() => { setServicosID(servico); handleShowModalDelete(); }}>Deletar</Button>
                                                                         <Modal show={showModalDelete} onHide={handleCloseModalDelete} animation={true}>
                                                                             <Modal.Header closeButton>
                                                                                 <Modal.Title>Você quer mesmo fazer isso?</Modal.Title>
                                                                             </Modal.Header>
                                                                             <Modal.Body>
-                                                                                {`Você deseja mesmo deletar a consulta de ( ${consultaID.data_hora_consulta} ) com código ( ${consultaID.cod_consulta} ) ?`}
+                                                                                {`Você deseja mesmo deletar o serviço de tipo ( ${servicosID.servico_TIPO} ) com código ( ${servicosID.cod_servico} ) ?`}
                                                                             </Modal.Body>
                                                                             <Modal.Footer>
                                                                                 <ButtonContainer>
@@ -376,7 +378,7 @@ export default function Servico() {
                                                                                         </Button>
                                                                                     </Buttons>
                                                                                     <Buttons>
-                                                                                        <Button variant="primary" onClick={() => {deleteConsulta(consultaID.cod_consulta); setConsultaID({}); handleCloseModalDelete();}}>
+                                                                                        <Button variant="primary" onClick={() => {deleteServico(servicosID.cod_servico); setServicosID({}); handleCloseModalDelete();}}>
                                                                                             Deletar
                                                                                         </Button>
                                                                                     </Buttons>
@@ -405,90 +407,65 @@ export default function Servico() {
                                                 <Form.Group controlId="validationFormik01">
                                                     <Form.Control
                                                         type="text"
-                                                        name="cod_consulta"
-                                                        value={formAdd.values.cod_consulta}
+                                                        name="cod_servico"
+                                                        value={formAdd.values.cod_servico}
                                                         onChange={formAdd.handleChange}
-                                                        isInvalid={!!formAdd.errors.cod_consulta}
+                                                        isInvalid={!!formAdd.errors.cod_servico}
                                                     />
                                                     <Form.Control.Feedback type="invalid">
-                                                        {formAdd.errors.cod_consulta}
+                                                        {formAdd.errors.cod_servico}
                                                     </Form.Control.Feedback>
                                                 </Form.Group>
                                             </td>
+
                                             <td>
                                             <Form.Group controlId="validationFormik02">
                                                 <Form.Control
                                                     type="text"
-                                                    name="data_hora_consulta"
-                                                    value={formAdd.values.data_hora_consulta}
+                                                    name="preco_banho"
+                                                    value={formAdd.values.preco_banho}
                                                     onChange={formAdd.handleChange}
-                                                    isInvalid={!!formAdd.errors.data_hora_consulta}
+                                                    isInvalid={!!formAdd.errors.preco_banho}
                                                 />
                                                 <Form.Control.Feedback type="invalid">
-                                                    {formAdd.errors.data_hora_consulta}
+                                                    {formAdd.errors.preco_banho}
                                                 </Form.Control.Feedback>
                                             </Form.Group>
                                             </td>
+
                                             <td>
                                                 <Form.Group controlId="validationFormik03">
                                                     <Form.Control
                                                         type="text"
-                                                        name="diagnostico"
-                                                        value={formAdd.values.diagnostico}
+                                                        name="preco_tosa"
+                                                        value={formAdd.values.preco_tosa}
                                                         onChange={formAdd.handleChange}
-                                                        isInvalid={!!formAdd.errors.diagnostico}
+                                                        isInvalid={!!formAdd.errors.preco_tosa}
                                                     />
                                                     <Form.Control.Feedback type="invalid">
-                                                        {formAdd.errors.diagnostico}
+                                                        {formAdd.errors.preco_tosa}
                                                     </Form.Control.Feedback>
                                                 </Form.Group>
                                             </td>
+
                                             <td>
                                                 <Form.Group controlId="validationFormik04">
                                                     <Form.Control
                                                         type="text"
-                                                        name="valor"
-                                                        value={formAdd.values.valor}
+                                                        name="servico_TIPO"
+                                                        value={formAdd.values.servico_TIPO}
                                                         onChange={formAdd.handleChange}
-                                                        isInvalid={!!formAdd.errors.valor}
+                                                        isInvalid={!!formAdd.errors.servico_TIPO}
                                                     />
                                                     <Form.Control.Feedback type="invalid">
-                                                        {formAdd.errors.valor}
+                                                        {formAdd.errors.servico_TIPO}
                                                     </Form.Control.Feedback>
                                                 </Form.Group>
                                             </td>
-                                            <td>
-                                                <Form.Group controlId="validationFormik05">
-                                                        { veterinarios.length > 0 ? (
-                                                        <Form.Control
-                                                            as="select"
-                                                            name="fk_Veterinario_CRMV"
-                                                            value={formAdd.values.fk_Veterinario_CRMV}
-                                                            onChange={formAdd.handleChange}
-                                                            isInvalid={!!formAdd.errors.fk_Veterinario_CRMV}
-                                                        >
-                                                            <>
-                                                            <option value="" label="Selecione o CRMV do Veterinário" />
-                                                            { veterinarios.map(veterinario => (
-                                                                <option
-                                                                    value={veterinario.CRMV}
-                                                                    label={`${veterinario.CRMV} - ${veterinario.nome_veterinario}`}
-                                                                    key={veterinario.CRMV}
-                                                                />
-                                                            ))}
-                                                            </>
-                                                        </Form.Control>
-                                                        ) : (
-                                                            <div style={{ color: "red" }}>Cadastre algum veterinário antes</div>
-                                                        )}
-                                                    <Form.Control.Feedback type="invalid">
-                                                        {formAdd.errors.fk_Veterinario_CRMV}
-                                                    </Form.Control.Feedback>
-                                                </Form.Group>
-                                            </td>
+
                                             <td>
                                                 <Form.Group controlId="validationFormik07">
-                                                        { animals.length > 0 ? (
+                                                    { animals.length > 0 ? (
                                                         <Form.Control
                                                             as="select"
                                                             name="fk_Animal_cod_animal"
@@ -497,27 +474,58 @@ export default function Servico() {
                                                             isInvalid={!!formAdd.errors.fk_Animal_cod_animal}
                                                         >
                                                             <>
-                                                            <option value="" label="Selecione o Código do Animal" />
-                                                            { animals.map(animal => (
-                                                                <option
-                                                                    value={animal.cod_animal}
-                                                                    label ={`${animal.cod_animal} - ${animal.nome_animal}`}
-                                                                    key={animal.cod_animal}
-                                                                />
-                                                            ))}
+                                                                <option value="" label="Selecione o Código do Animal" />
+                                                                { animals.map(animal => (
+                                                                    <option
+                                                                        value={animal.cod_animal}
+                                                                        label ={`${animal.cod_animal} - ${animal.nome_animal}`}
+                                                                        key={animal.cod_animal}
+                                                                    />
+                                                                ))}
                                                             </>
                                                         </Form.Control>
-                                                        ) : (
-                                                            <div style={{ color: "red" }}>Cadastre algum animal antes</div>
-                                                        )}
+                                                    ) : (
+                                                        <div style={{ color: "red" }}>Cadastre algum animal antes</div>
+                                                    )}
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.fk_Animal_cod_animal}
                                                     </Form.Control.Feedback>
                                                 </Form.Group>
                                             </td>
+
+                                            <td>
+                                                <Form.Group controlId="validationFormik05">
+                                                    { tosadores.length > 0 ? (
+                                                        <Form.Control
+                                                            as="select"
+                                                            name="fk_Tosador_CPF"
+                                                            value={formAdd.values.fk_Tosador_CPF}
+                                                            onChange={formAdd.handleChange}
+                                                            isInvalid={!!formAdd.errors.fk_Tosador_CPF}
+                                                        >
+                                                            <>
+                                                                <option value="" label="Selecione o CPF do tosador" />
+                                                                { tosadores.map(tosador => (
+                                                                    <option
+                                                                        value={tosador.CPF}
+                                                                        label={`${tosador.CPF} - ${tosador.nome_tosador}`}
+                                                                        key={tosador.CPF}
+                                                                    />
+                                                                ))}
+                                                            </>
+                                                        </Form.Control>
+                                                    ) : (
+                                                        <div style={{ color: "red" }}>Cadastre algum tosador antes</div>
+                                                    )}
+                                                    <Form.Control.Feedback type="invalid">
+                                                        {formAdd.errors.fk_Tosador_CPF}
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
+                                            </td>
+
                                             <td>
                                                 <Buttons>
-                                                    <Button type="submit" onClick={() => formAdd.submitForm()}>Adicionar Consulta</Button>
+                                                    <Button type="submit" onClick={() => formAdd.submitForm()}>Adicionar Serviço</Button>
                                                 </Buttons>
                                             </td>
                                         </tr>
@@ -527,7 +535,7 @@ export default function Servico() {
                         )}
                 </Formik>
             </Container>
-        </ConsultaContainer>
+        </ServicoContainer>
         </>
     );
 }

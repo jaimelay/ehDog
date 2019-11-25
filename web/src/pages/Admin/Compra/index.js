@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import api from '../../../services/api'
 import HeaderAdmin from '../HeaderAdmin';
 
-const ConsultaContainer = styled.div`
+const CompraContainer = styled.div`
     display: flex
     flex-direction: column;
 
@@ -108,7 +108,7 @@ export default function Compra() {
 
     return (
         <>
-        <ConsultaContainer>
+        <CompraContainer>
             <HeaderAdmin />
             <Container>
                 <h1>Compras</h1>
@@ -453,7 +453,7 @@ export default function Compra() {
                         )}
                 </Formik>
             </Container>
-        </ConsultaContainer>
+        </CompraContainer>
         </>
     );
 }
