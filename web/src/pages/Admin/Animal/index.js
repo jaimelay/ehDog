@@ -228,9 +228,9 @@ export default function Animal() {
                                                                                                 onChange={formEdit.handleChange}
                                                                                                 isInvalid={!!formEdit.errors.cod_animal}
                                                                                             />
-                                                                                                <Form.Control.Feedback type="invalid">
-                                                                                                    {formEdit.errors.cod_animal}
-                                                                                                </Form.Control.Feedback>
+                                                                                            <Form.Control.Feedback type="invalid">
+                                                                                                {formEdit.errors.cod_animal}
+                                                                                            </Form.Control.Feedback>
                                                                                         </Form.Group>
 
                                                                                         <Form.Group controlId="validationFormik02">
@@ -316,14 +316,14 @@ export default function Animal() {
                                                                                             >
                                                                                                 { customers.length > 0 ? (
                                                                                                     <>
-                                                                                                    <option value="" label="Selecione o CPF do Dono" />
-                                                                                                    { customers.map(customer => (
-                                                                                                        <option
-                                                                                                            value={customer.CPF}
-                                                                                                            label={customer.CPF}
-                                                                                                            key={customer.CPF}
-                                                                                                        />
-                                                                                                    ))}
+                                                                                                        <option value="" label="Selecione o CPF do Dono" />
+                                                                                                        { customers.map(customer => (
+                                                                                                            <option
+                                                                                                                value={customer.CPF}
+                                                                                                                label={customer.CPF}
+                                                                                                                key={customer.CPF}
+                                                                                                            />
+                                                                                                        ))}
                                                                                                     </>
                                                                                                 ) : (
                                                                                                     <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
@@ -484,24 +484,24 @@ export default function Animal() {
                                             <td>
                                                 <Form.Group controlId="validationFormik07">
                                                         { customers.length > 0 ? (
-                                                        <Form.Control
-                                                            as="select"
-                                                            name="fk_Cliente_CPF"
-                                                            value={formAdd.values.fk_Cliente_CPF}
-                                                            onChange={formAdd.handleChange}
-                                                            isInvalid={!!formAdd.errors.fk_Cliente_CPF}
-                                                        >
-                                                            <>
-                                                            <option value="" label="Selecione o CPF do Dono" />
-                                                            { customers.map(customer => (
-                                                                <option
-                                                                    value={customer.CPF}
-                                                                    label={customer.CPF}
-                                                                    key={customer.CPF}
-                                                                />
-                                                            ))}
-                                                            </>
-                                                        </Form.Control>
+                                                            <Form.Control
+                                                                as="select"
+                                                                name="fk_Cliente_CPF"
+                                                                value={formAdd.values.fk_Cliente_CPF}
+                                                                onChange={formAdd.handleChange}
+                                                                isInvalid={!!formAdd.errors.fk_Cliente_CPF}
+                                                            >
+                                                                <>
+                                                                    <option value="" label="Selecione o CPF do Dono" />
+                                                                    { customers.map(customer => (
+                                                                        <option
+                                                                            value={customer.CPF}
+                                                                            label={customer.CPF}
+                                                                            key={customer.CPF}
+                                                                        />
+                                                                    ))}
+                                                                </>
+                                                            </Form.Control>
                                                         ) : (
                                                             <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
                                                         )}

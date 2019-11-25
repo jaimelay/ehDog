@@ -138,7 +138,7 @@ export default function Produto() {
                                         <th>Código</th>
                                         <th>Nome</th>
                                         <th>Marca</th>
-                                        <th>Valor</th>
+                                        <th>Valor (R$)</th>
                                         <th>Estoque</th>
                                         <th></th>
                                     </tr>

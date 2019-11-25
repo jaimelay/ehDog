@@ -122,8 +122,6 @@ export default function Compra() {
                         
                         if (!values.data_hora_compra) { errors.data_hora_compra = 'É necessário digitar uma data e hora.'; }
 
-                        // if (!values.diagnostico) { errors.diagnostico = 'É necessário digitar um diagnostico.'; }
-                        
                         if (!values.fk_Produto_cod_produto) { errors.fk_Produto_cod_produto = 'É necessário selecionar um Código Produto.'; }
 
                         if (!values.fk_Cliente_CPF) { errors.fk_Cliente_CPF = 'É necessário selecionar um CPF do Cliente.'; }
@@ -183,10 +181,8 @@ export default function Compra() {
                                                                                     if (!values.cod_compra) { errors.cod_compra = 'É necessário digitar um código.'; }
                                                                                     else if(!/^[0-9]{1,5}$/i.test(values.cod_compra)) { errors.cod_compra = 'O código tem que ser númerico e no máximo 5 digitos.'; }
                                                                                     
-                                                                                    if (!values.data_hora_compr) { errors.data_hora_compr = 'É necessário digitar uma data e hora.'; }
+                                                                                    if (!values.data_hora_compra) { errors.data_hora_compra = 'É necessário digitar uma data e hora.'; }
                                                             
-                                                                                    // if (!values.diagnostico) { errors.diagnostico = 'É necessário digitar um diagnostico.'; }
-                                                                                    
                                                                                     if (!values.fk_Produto_cod_produto) { errors.fk_Produto_cod_produto = 'É necessário selecionar um Código Produto.'; }
                                                             
                                                                                     if (!values.fk_Cliente_CPF) { errors.fk_Cliente_CPF = 'É necessário selecionar um CPF do Cliente.'; }
@@ -222,9 +218,9 @@ export default function Compra() {
                                                                                                 onChange={formEdit.handleChange}
                                                                                                 isInvalid={!!formEdit.errors.cod_compra}
                                                                                             />
-                                                                                                <Form.Control.Feedback type="invalid">
-                                                                                                    {formEdit.errors.cod_compra}
-                                                                                                </Form.Control.Feedback>
+                                                                                            <Form.Control.Feedback type="invalid">
+                                                                                                {formEdit.errors.cod_compra}
+                                                                                            </Form.Control.Feedback>
                                                                                         </Form.Group>
 
                                                                                         <Form.Group controlId="validationFormik02">
@@ -241,27 +237,27 @@ export default function Compra() {
                                                                                             </Form.Control.Feedback>
                                                                                         </Form.Group>
                                                 
-                                                                                        <Form.Group controlId="validationFormik06">
+                                                                                        <Form.Group controlId="validationFormik03">
                                                                                             <Form.Label>Produto*</Form.Label>
                                                                                             { products.length > 0 ? (
-                                                                                            <Form.Control
-                                                                                                as="select"
-                                                                                                name="fk_Produto_cod_produto"
-                                                                                                value={formEdit.values.fk_Produto_cod_produto}
-                                                                                                onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.fk_Produto_cod_produto}
-                                                                                            >
-                                                                                                <>
-                                                                                                <option value="" label="Selecione o Código do Produto" />
-                                                                                                { products.map(product => (
-                                                                                                    <option
-                                                                                                        value={product.cod_produto}
-                                                                                                        label={`${product.cod_produto} - ${product.nome_produto}`}
-                                                                                                        key={product.cod_produto}
-                                                                                                    />
-                                                                                                ))}
-                                                                                                </>
-                                                                                            </Form.Control>
+                                                                                                <Form.Control
+                                                                                                    as="select"
+                                                                                                    name="fk_Produto_cod_produto"
+                                                                                                    value={formEdit.values.fk_Produto_cod_produto}
+                                                                                                    onChange={formEdit.handleChange}
+                                                                                                    isInvalid={!!formEdit.errors.fk_Produto_cod_produto}
+                                                                                                >
+                                                                                                        <>
+                                                                                                            <option value="" label="Selecione o Código do Produto" />
+                                                                                                            { products.map(product => (
+                                                                                                                <option
+                                                                                                                    value={product.cod_produto}
+                                                                                                                    label={`${product.cod_produto} - ${product.nome_produto}`}
+                                                                                                                    key={product.cod_produto}
+                                                                                                                />
+                                                                                                            ))}
+                                                                                                        </>
+                                                                                                </Form.Control>
                                                                                             ) : (
                                                                                                 <div style={{ color: "red" }}>Cadastre algum produto antes</div>
                                                                                             )}
@@ -270,30 +266,30 @@ export default function Compra() {
                                                                                             </Form.Control.Feedback>
                                                                                         </Form.Group>
 
-                                                                                        <Form.Group controlId="validationFormik07">
+                                                                                        <Form.Group controlId="validationFormik04">
                                                                                             <Form.Label>Cliente*</Form.Label>
-                                                                                            <Form.Control
-                                                                                                as="select"
-                                                                                                name="fk_Cliente_CPF"
-                                                                                                value={formEdit.values.fk_Cliente_CPF}
-                                                                                                onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.fk_Cliente_CPF}
-                                                                                            >
-                                                                                                { clients.length > 0 ? (
-                                                                                                    <>
-                                                                                                    <option value="" label="Selecione o CPF do Cliente" />
-                                                                                                    { clients.map(client => (
-                                                                                                        <option
-                                                                                                            value={client.CPF}
-                                                                                                            label ={`${client.CPF} - ${client.nome_cliente}`}
-                                                                                                            key={client.CPF}
-                                                                                                        />
-                                                                                                    ))}
-                                                                                                    </>
-                                                                                                ) : (
-                                                                                                    <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
-                                                                                                )}
-                                                                                            </Form.Control>
+                                                                                            { clients.length > 0 ? (
+                                                                                                <Form.Control
+                                                                                                    as="select"
+                                                                                                    name="fk_Cliente_CPF"
+                                                                                                    value={formEdit.values.fk_Cliente_CPF}
+                                                                                                    onChange={formEdit.handleChange}
+                                                                                                    isInvalid={!!formEdit.errors.fk_Cliente_CPF}
+                                                                                                >
+                                                                                                        <>
+                                                                                                            <option value="" label="Selecione o CPF do Cliente" />
+                                                                                                            { clients.map(client => (
+                                                                                                                <option
+                                                                                                                    value={client.CPF}
+                                                                                                                    label ={`${client.CPF} - ${client.nome_cliente}`}
+                                                                                                                    key={client.CPF}
+                                                                                                                />
+                                                                                                            ))}
+                                                                                                        </>
+                                                                                                </Form.Control>
+                                                                                            ) : (
+                                                                                                <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
+                                                                                            )}
                                                                                             <Form.Control.Feedback type="invalid">
                                                                                                 {formEdit.errors.fk_Cliente_CPF}
                                                                                             </Form.Control.Feedback>
@@ -372,77 +368,79 @@ export default function Compra() {
                                                 </Form.Group>
                                             </td>
                                             <td>
-                                            <Form.Group controlId="validationFormik02">
-                                                <Form.Control
-                                                    type="text"
-                                                    name="data_hora_compra"
-                                                    value={formAdd.values.data_hora_compra}
-                                                    onChange={formAdd.handleChange}
-                                                    isInvalid={!!formAdd.errors.data_hora_compra}
-                                                />
-                                                <Form.Control.Feedback type="invalid">
-                                                    {formAdd.errors.data_hora_compra}
-                                                </Form.Control.Feedback>
-                                            </Form.Group>
+                                                <Form.Group controlId="validationFormik02">
+                                                    <Form.Control
+                                                        type="text"
+                                                        name="data_hora_compra"
+                                                        value={formAdd.values.data_hora_compra}
+                                                        onChange={formAdd.handleChange}
+                                                        isInvalid={!!formAdd.errors.data_hora_compra}
+                                                    />
+                                                    <Form.Control.Feedback type="invalid">
+                                                        {formAdd.errors.data_hora_compra}
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
                                             </td>
                                             <td>
-                                            <Form.Group controlId="validationFormik03">
-                                                { products.length > 0 ? (
-                                                <Form.Control
-                                                    as="select"
-                                                    name="fk_Produto_cod_produto"
-                                                    value={formAdd.values.fk_Produto_cod_produto}
-                                                    onChange={formAdd.handleChange}
-                                                    isInvalid={!!formAdd.errors.fk_Produto_cod_produto}
-                                                >
-                                                    <>
-                                                    <option value="" label="Selecione o Código do Produto" />
-                                                    { products.map(product => (
-                                                        <option
-                                                            value={product.cod_produto}
-                                                            label={`${product.cod_produto} - ${product.nome_produto}`}
-                                                            key={product.cod_produto}
-                                                        />
-                                                    ))}
-                                                    </>
-                                                </Form.Control>
-                                                ) : (
-                                                    <div style={{ color: "red" }}>Cadastre algum produto antes</div>
-                                                )}
-                                                <Form.Control.Feedback type="invalid">
-                                                    {formAdd.errors.fk_Produto_cod_produto}
-                                                </Form.Control.Feedback>
-                                            </Form.Group>
+                                                <Form.Group controlId="validationFormik03">
+                                                    { products.length > 0 ? (
+                                                        <Form.Control
+                                                            as="select"
+                                                            name="fk_Produto_cod_produto"
+                                                            value={formAdd.values.fk_Produto_cod_produto}
+                                                            onChange={formAdd.handleChange}
+                                                            isInvalid={!!formAdd.errors.fk_Produto_cod_produto}
+                                                        >
+                                                                <>
+                                                                    <option value="" label="Selecione o Código do Produto" />
+                                                                    { products.map(product => (
+                                                                        <option
+                                                                            value={product.cod_produto}
+                                                                            label={`${product.cod_produto} - ${product.nome_produto}`}
+                                                                            key={product.cod_produto}
+                                                                        />
+                                                                    ))}
+                                                                </>
+                                                        </Form.Control>
+                                                    ) : (
+                                                        <div style={{ color: "red" }}>Cadastre algum produto antes</div>
+                                                    )}
+                                                    <Form.Control.Feedback type="invalid">
+                                                        {formAdd.errors.fk_Produto_cod_produto}
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
                                             </td>
+
                                             <td>
-                                            <Form.Group controlId="validationFormik04">
-                                                <Form.Control
-                                                    as="select"
-                                                    name="fk_Cliente_CPF"
-                                                    value={formAdd.values.fk_Cliente_CPF}
-                                                    onChange={formAdd.handleChange}
-                                                    isInvalid={!!formAdd.errors.fk_Cliente_CPF}
-                                                >
+                                                <Form.Group controlId="validationFormik04">
                                                     { clients.length > 0 ? (
-                                                        <>
-                                                        <option value="" label="Selecione o CPF do Cliente" />
-                                                        { clients.map(client => (
-                                                            <option
-                                                                value={client.CPF}
-                                                                label ={`${client.CPF} - ${client.nome_cliente}`}
-                                                                key={client.CPF}
-                                                            />
-                                                        ))}
-                                                        </>
+                                                        <Form.Control
+                                                            as="select"
+                                                            name="fk_Cliente_CPF"
+                                                            value={formAdd.values.fk_Cliente_CPF}
+                                                            onChange={formAdd.handleChange}
+                                                            isInvalid={!!formAdd.errors.fk_Cliente_CPF}
+                                                        >
+                                                                <>
+                                                                    <option value="" label="Selecione o CPF do Cliente" />
+                                                                    { clients.map(client => (
+                                                                        <option
+                                                                            value={client.CPF}
+                                                                            label ={`${client.CPF} - ${client.nome_cliente}`}
+                                                                            key={client.CPF}
+                                                                        />
+                                                                    ))}
+                                                                </>
+                                                        </Form.Control>
                                                     ) : (
                                                         <div style={{ color: "red" }}>Cadastre algum cliente antes</div>
                                                     )}
-                                                </Form.Control>
-                                                <Form.Control.Feedback type="invalid">
-                                                    {formAdd.errors.fk_Cliente_CPF}
-                                                </Form.Control.Feedback>
-                                            </Form.Group>
+                                                    <Form.Control.Feedback type="invalid">
+                                                        {formAdd.errors.fk_Cliente_CPF}
+                                                    </Form.Control.Feedback>
+                                                </Form.Group>
                                             </td>
+
                                             <td>
                                                 <Buttons>
                                                     <Button type="submit" onClick={() => formAdd.submitForm()}>Adicionar Compra</Button>

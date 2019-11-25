@@ -11,8 +11,9 @@ module.exports = {
     },
 
     insertCompra(req, res){
+        console.log(req.body);
         const { cod_compra, data_hora_compra, fk_Produto_cod_produto, fk_Cliente_CPF } = req.body;
-        execSQLQuery(`INSERT INTO Compra(cod_compra, data_hora_compra, fk_Produto_cod_produto, fk_Cliente_CPF) VALUES (${cod_compra}, ${data_hora_compra}, ${fk_Produto_cod_produto}, ${fk_Cliente_CPF})`, res);
+        execSQLQuery(`INSERT INTO Compra(cod_compra, data_hora_compra, fk_Produto_cod_produto, fk_Cliente_CPF) VALUES (${cod_compra}, '${data_hora_compra}', ${fk_Produto_cod_produto}, ${fk_Cliente_CPF})`, res);
     },
 
     getCompra(req, res){
@@ -22,6 +23,6 @@ module.exports = {
 
     updateCompra(req, res){
         const { oldCodCompra, cod_compra, data_hora_compra, fk_Produto_cod_produto, fk_Cliente_CPF } = req.body;
-        execSQLQuery(`UPDATE Compra SET cod_compra = ${cod_compra}, data_hora_compra = ${data_hora_compra}, fk_Produto_cod_produto = ${fk_Produto_cod_produto}, fk_Cliente_CPF = ${fk_Cliente_CPF} WHERE cod_compra = ${oldCodCompra}`, res);
+        execSQLQuery(`UPDATE Compra SET cod_compra = ${cod_compra}, data_hora_compra = '${data_hora_compra}', fk_Produto_cod_produto = ${fk_Produto_cod_produto}, fk_Cliente_CPF = ${fk_Cliente_CPF} WHERE cod_compra = ${oldCodCompra}`, res);
     }
 }

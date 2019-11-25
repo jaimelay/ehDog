@@ -96,7 +96,7 @@ export default function Consulta() {
 
     async function updateConsulta(oldCodConsulta, values){
         const { cod_consulta, data_hora_consulta, diagnostico, valor, fk_Veterinario_CRMV, fk_Animal_cod_animal } = values;
-        await api.put(`/animais`, {
+        await api.put(`/consultas`, {
             oldCodConsulta,
             cod_consulta,
             data_hora_consulta,
@@ -126,8 +126,6 @@ export default function Consulta() {
                         
                         if (!values.data_hora_consulta) { errors.data_hora_consulta = 'É necessário digitar uma data e hora.'; }
 
-                        // if (!values.diagnostico) { errors.diagnostico = 'É necessário digitar um diagnostico.'; }
-                        
                         if (!values.valor) { errors.valor = 'É necessário digitar um valor.'; }
                         else if(!/^[0-9]+\.[0-9]{2,2}$/i.test(values.valor)) { errors.valor = 'O valor tem que ser númerico, e com valor decimal. Ex: 10.00'; }
 
@@ -159,9 +157,9 @@ export default function Consulta() {
                                         <th>Código</th>
                                         <th>Data e Hora</th>
                                         <th>Diagnóstico</th>
-                                        <th>Valor</th>
-                                        <th>Veterinário</th>
-                                        <th>Animal</th>
+                                        <th>Valor (R$)</th>
+                                        <th>Veterinário (CRMV)</th>
+                                        <th>Animal (Código)</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -196,8 +194,6 @@ export default function Consulta() {
                                                                                     
                                                                                     if (!values.data_hora_consulta) { errors.data_hora_consulta = 'É necessário digitar uma data e hora.'; }
                                                             
-                                                                                    // if (!values.diagnostico) { errors.diagnostico = 'É necessário digitar um diagnóstico.'; }
-                                                                                    
                                                                                     if (!values.valor) { errors.valor = 'É necessário digitar um valor.'; }
                                                                                     else if(!/^[0-9]+\.[0-9]{2,2}$/i.test(values.valor)) { errors.valor = 'O valor tem que ser númerico, e com valor decimal. Ex: 10.00'; }
 
@@ -286,24 +282,24 @@ export default function Consulta() {
                                                                                         <Form.Group controlId="validationFormik06">
                                                                                             <Form.Label>CRMV do Veterinário*</Form.Label>
                                                                                             { veterinarios.length > 0 ? (
-                                                                                            <Form.Control
-                                                                                                as="select"
-                                                                                                name="fk_Veterinario_CRMV"
-                                                                                                value={formEdit.values.fk_Veterinario_CRMV}
-                                                                                                onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.fk_Veterinario_CRMV}
-                                                                                            >
-                                                                                                <>
-                                                                                                <option value="" label="Selecione o CRMV do Veterinário" />
-                                                                                                { veterinarios.map(veterinario => (
-                                                                                                    <option
-                                                                                                        value={veterinario.CRMV}
-                                                                                                        label={`${veterinario.CRMV} - ${veterinario.nome_veterinario}`}
-                                                                                                        key={veterinario.CRMV}
-                                                                                                    />
-                                                                                                ))}
-                                                                                                </>
-                                                                                            </Form.Control>
+                                                                                                <Form.Control
+                                                                                                    as="select"
+                                                                                                    name="fk_Veterinario_CRMV"
+                                                                                                    value={formEdit.values.fk_Veterinario_CRMV}
+                                                                                                    onChange={formEdit.handleChange}
+                                                                                                    isInvalid={!!formEdit.errors.fk_Veterinario_CRMV}
+                                                                                                >
+                                                                                                    <>
+                                                                                                        <option value="" label="Selecione o CRMV do Veterinário" />
+                                                                                                        { veterinarios.map(veterinario => (
+                                                                                                            <option
+                                                                                                                value={veterinario.CRMV}
+                                                                                                                label={`${veterinario.CRMV} - ${veterinario.nome_veterinario}`}
+                                                                                                                key={veterinario.CRMV}
+                                                                                                            />
+                                                                                                        ))}
+                                                                                                    </>
+                                                                                                </Form.Control>
                                                                                             ) : (
                                                                                                 <div style={{ color: "red" }}>Cadastre algum veterinário antes</div>
                                                                                             )}
@@ -314,28 +310,28 @@ export default function Consulta() {
 
                                                                                         <Form.Group controlId="validationFormik07">
                                                                                             <Form.Label>Código do Animal*</Form.Label>
-                                                                                            <Form.Control
-                                                                                                as="select"
-                                                                                                name="fk_Animal_cod_animal"
-                                                                                                value={formEdit.values.fk_Animal_cod_animal}
-                                                                                                onChange={formEdit.handleChange}
-                                                                                                isInvalid={!!formEdit.errors.fk_Animal_cod_animal}
-                                                                                            >
-                                                                                                { animals.length > 0 ? (
+                                                                                            { animals.length > 0 ? (
+                                                                                                <Form.Control
+                                                                                                    as="select"
+                                                                                                    name="fk_Animal_cod_animal"
+                                                                                                    value={formEdit.values.fk_Animal_cod_animal}
+                                                                                                    onChange={formEdit.handleChange}
+                                                                                                    isInvalid={!!formEdit.errors.fk_Animal_cod_animal}
+                                                                                                >
                                                                                                     <>
-                                                                                                    <option value="" label="Selecione o Código do Animal" />
-                                                                                                    { animals.map(animal => (
-                                                                                                        <option
-                                                                                                            value={animal.cod_animal}
-                                                                                                            label ={`${animal.cod_animal} - ${animal.nome_animal}`}
-                                                                                                            key={animal.cod_animal}
-                                                                                                        />
-                                                                                                    ))}
+                                                                                                        <option value="" label="Selecione o Código do Animal" />
+                                                                                                        { animals.map(animal => (
+                                                                                                            <option
+                                                                                                                value={animal.cod_animal}
+                                                                                                                label ={`${animal.cod_animal} - ${animal.nome_animal}`}
+                                                                                                                key={animal.cod_animal}
+                                                                                                            />
+                                                                                                        ))}
                                                                                                     </>
-                                                                                                ) : (
-                                                                                                    <div style={{ color: "red" }}>Cadastre algum animal antes</div>
-                                                                                                )}
-                                                                                            </Form.Control>
+                                                                                                </Form.Control>
+                                                                                            ) : (
+                                                                                                <div style={{ color: "red" }}>Cadastre algum animal antes</div>
+                                                                                            )}
                                                                                             <Form.Control.Feedback type="invalid">
                                                                                                 {formEdit.errors.fk_Animal_cod_animal}
                                                                                             </Form.Control.Feedback>
@@ -459,7 +455,7 @@ export default function Consulta() {
                                             </td>
                                             <td>
                                                 <Form.Group controlId="validationFormik05">
-                                                        { veterinarios.length > 0 ? (
+                                                    { veterinarios.length > 0 ? (
                                                         <Form.Control
                                                             as="select"
                                                             name="fk_Veterinario_CRMV"
@@ -468,19 +464,19 @@ export default function Consulta() {
                                                             isInvalid={!!formAdd.errors.fk_Veterinario_CRMV}
                                                         >
                                                             <>
-                                                            <option value="" label="Selecione o CRMV do Veterinário" />
-                                                            { veterinarios.map(veterinario => (
-                                                                <option
-                                                                    value={veterinario.CRMV}
-                                                                    label={`${veterinario.CRMV} - ${veterinario.nome_veterinario}`}
-                                                                    key={veterinario.CRMV}
-                                                                />
-                                                            ))}
+                                                                <option value="" label="Selecione o CRMV do Veterinário" />
+                                                                { veterinarios.map(veterinario => (
+                                                                    <option
+                                                                        value={veterinario.CRMV}
+                                                                        label={`${veterinario.CRMV} - ${veterinario.nome_veterinario}`}
+                                                                        key={veterinario.CRMV}
+                                                                    />
+                                                                ))}
                                                             </>
                                                         </Form.Control>
-                                                        ) : (
-                                                            <div style={{ color: "red" }}>Cadastre algum veterinário antes</div>
-                                                        )}
+                                                    ) : (
+                                                        <div style={{ color: "red" }}>Cadastre algum veterinário antes</div>
+                                                    )}
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.fk_Veterinario_CRMV}
                                                     </Form.Control.Feedback>
@@ -488,7 +484,7 @@ export default function Consulta() {
                                             </td>
                                             <td>
                                                 <Form.Group controlId="validationFormik07">
-                                                        { animals.length > 0 ? (
+                                                    { animals.length > 0 ? (
                                                         <Form.Control
                                                             as="select"
                                                             name="fk_Animal_cod_animal"
@@ -497,19 +493,19 @@ export default function Consulta() {
                                                             isInvalid={!!formAdd.errors.fk_Animal_cod_animal}
                                                         >
                                                             <>
-                                                            <option value="" label="Selecione o Código do Animal" />
-                                                            { animals.map(animal => (
-                                                                <option
-                                                                    value={animal.cod_animal}
-                                                                    label ={`${animal.cod_animal} - ${animal.nome_animal}`}
-                                                                    key={animal.cod_animal}
-                                                                />
-                                                            ))}
+                                                                <option value="" label="Selecione o Código do Animal" />
+                                                                { animals.map(animal => (
+                                                                    <option
+                                                                        value={animal.cod_animal}
+                                                                        label ={`${animal.cod_animal} - ${animal.nome_animal}`}
+                                                                        key={animal.cod_animal}
+                                                                    />
+                                                                ))}
                                                             </>
                                                         </Form.Control>
-                                                        ) : (
-                                                            <div style={{ color: "red" }}>Cadastre algum animal antes</div>
-                                                        )}
+                                                    ) : (
+                                                        <div style={{ color: "red" }}>Cadastre algum animal antes</div>
+                                                    )}
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.fk_Animal_cod_animal}
                                                     </Form.Control.Feedback>
