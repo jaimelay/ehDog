@@ -18,7 +18,7 @@ CREATE TABLE Animal (
 
 CREATE TABLE Veterinario (
 	CRMV			    NUMERIC(5)		NOT NULL	PRIMARY KEY,
-	CPF                 NUMERIC(5)		NOT NULL,
+	CPF                 NUMERIC(11)		NOT NULL,
 	nome_veterinario	VARCHAR(40)	    NOT NULL,
 	end_veterinario	    VARCHAR(80)	    NOT NULL,
 	email_veterinario	VARCHAR(20)	    NOT NULL,
