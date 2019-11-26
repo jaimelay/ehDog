@@ -403,6 +403,7 @@ export default function Animal() {
                                                         value={formAdd.values.cod_animal}
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.cod_animal}
+                                                        placeholder="Ex: 12345"
                                                     />
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.cod_animal}
@@ -417,6 +418,7 @@ export default function Animal() {
                                                     value={formAdd.values.nome_animal}
                                                     onChange={formAdd.handleChange}
                                                     isInvalid={!!formAdd.errors.nome_animal}
+                                                    placeholder="Digite o nome"
                                                 />
                                                 <Form.Control.Feedback type="invalid">
                                                     {formAdd.errors.nome_animal}
@@ -431,6 +433,7 @@ export default function Animal() {
                                                         value={formAdd.values.tipo}
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.tipo}
+                                                        placeholder="Ex: Cachorro"
                                                     />
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.tipo}
@@ -445,6 +448,7 @@ export default function Animal() {
                                                         value={formAdd.values.alergia}
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.alergia}
+                                                        placeholder="Digite a alergia"
                                                     />
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.alergia}
@@ -459,6 +463,7 @@ export default function Animal() {
                                                         value={formAdd.values.raca}
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.raca}
+                                                        placeholder="Ex: Poodle"
                                                     />
                                         
                                                     <Form.Control.Feedback type="invalid">
@@ -474,6 +479,7 @@ export default function Animal() {
                                                         value={formAdd.values.porte}
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.porte}
+                                                        placeholder="Ex: Pequeno, Médio ..."
                                                     />
                                         
                                                     <Form.Control.Feedback type="invalid">

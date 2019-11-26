@@ -405,6 +405,7 @@ export default function Consulta() {
                                                         value={formAdd.values.cod_consulta}
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.cod_consulta}
+                                                        placeholder="Ex: 12345"
                                                     />
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.cod_consulta}
@@ -433,6 +434,7 @@ export default function Consulta() {
                                                         value={formAdd.values.diagnostico}
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.diagnostico}
+                                                        placeholder="Ex: Infecção Urinária"
                                                     />
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.diagnostico}
@@ -447,6 +449,7 @@ export default function Consulta() {
                                                         value={formAdd.values.valor}
                                                         onChange={formAdd.handleChange}
                                                         isInvalid={!!formAdd.errors.valor}
+                                                        placeholder="Ex: 90.00"
                                                     />
                                                     <Form.Control.Feedback type="invalid">
                                                         {formAdd.errors.valor}

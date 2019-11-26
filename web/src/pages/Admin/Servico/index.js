@@ -237,6 +237,7 @@ export default function Servico() {
                                                                                                 value={formEdit.values.cod_servico}
                                                                                                 onChange={formEdit.handleChange}
                                                                                                 isInvalid={!!formEdit.errors.cod_servico}
+                                                                                                placeholder="Ex: 54321"
                                                                                             />
                                                                                                 <Form.Control.Feedback type="invalid">
                                                                                                     {formEdit.errors.cod_servico}
