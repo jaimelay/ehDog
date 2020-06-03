@@ -8,3 +8,12 @@ This project was developed with the following technologies:
 - [NodeJS](https://nodejs.org/en/)
 - [MySQL](https://www.mysql.com/)
 
+## Database Models
+
+<h3 align="center">Conceptual Model</h3>
+
+![alt text](/docs/models/conceitual.png)
+
+<h3 align="center">Logical Model</h3>
+
+![alt text](/docs/models/logico.png)
