@@ -1,6 +1,10 @@
-# ehDog? Petshop & Veterinária
-Este projeto foi desenvolvido por mim, e meus amigos [Ricardo Rolo](https://github.com/cadico) e [Leonardo Andrade](https://github.com/yatori17) para um trabalho da matéria de Banco de Dados 1 no curso de graduação de ciência da computação na Universidade do Estado do Rio de Janeiro em 2019.2.
+<h1 align="center">ehDog? Petshop and Veterinary</h1>
 
-## Documentação
+This project was developed with me and my friends [Ricardo Rolo](https://github.com/cadico) and [Leonardo Andrade](https://github.com/yatori17) for the [database class](http://www.ementario.uerj.br/ementa.php?cdg_disciplina=10832) in the computer science bachelor in [Rio de Janeiro State University](https://www.uerj.br/) in 2019.2.
 
-## Getting Started
+## Technologies
+This project was developed with the following technologies:
+- [ReactJS](https://reactjs.org/)
+- [NodeJS](https://nodejs.org/en/)
+- [MySQL](https://www.mysql.com/)
+
