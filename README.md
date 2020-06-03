@@ -10,10 +10,7 @@ This project was developed with the following technologies:
 
 ## Database Models
 
-<h3 align="center">Conceptual Model</h3>
-
-![alt text](/docs/models/conceitual.png)
-
-<h3 align="center">Logical Model</h3>
-
-![alt text](/docs/models/logico.png)
+Type | Model
+------------ | -------------
+**Conceptual** | ![alt text](/docs/models/conceitual.png)
+**Logical** | ![alt text](/docs/models/logico.png)
